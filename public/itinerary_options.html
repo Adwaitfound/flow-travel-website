@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Available Itinerary Options - Flow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <style>
+    :root {
+      --primary-dark-charcoal: #131A23;
+      --primary-bright-yellow: #F6EF31;
+      --text-on-dark: #FFFFFF;
+      --text-on-dark-subtle: #cccccc;
+      --text-dark-on-yellow: #131A23;
+      --text-primary-content: #2c3e50;
+      --background-light: #FFFFFF;
+      --background-page: #f8f9fa;
+      --border-light: #dee2e6;
+      --accent-greenish-yellow: #95cb00;
+      --accent-greenish-yellow-darker: #7da800;
+      --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --text-dark: #333333;
+      --text-medium: #555555;
+    }
+
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      line-height: 1.6;
+      color: var(--text-primary-content);
+      background-color: var(--background-page);
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 20px;
+    }
+
+    header.page-top-header {
+      background: var(--primary-dark-charcoal);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1001;
+      transition: background 0.3s;
+      padding: 0;
+      height: 60px;
+    }
+
+    header.page-top-header .container-header {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    header.page-top-header h1.logo {
+      color: var(--text-on-dark);
+      margin: 0;
+      font-size: 1.8em;
+      font-weight: 700;
+    }
+
+    header.page-top-header nav ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      height: 60px;
+    }
+
+    header.page-top-header nav ul li {
+      margin-left: 25px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+    }
+
+    header.page-top-header nav ul li a {
+      text-decoration: none;
+      color: var(--text-on-dark-subtle);
+      font-weight: 500;
+      transition: color 0.3s ease;
+      font-size: 0.9em;
+    }
+
+    header.page-top-header nav ul li a:hover,
+    header.page-top-header nav ul li a.active {
+      color: var(--primary-bright-yellow);
+    }
+
+    .main-content-area {
+      padding: 40px 0;
+    }
+
+    .options-title-section {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .options-title-section h1 {
+      font-size: 2.2em;
+      color: var(--primary-dark-charcoal);
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .options-title-section h1 i {
+      color: var(--accent-greenish-yellow);
+      margin-right: 10px;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 27px;
+    }
+
+    .option-card {
+      background-color: var(--background-light);
+      border-radius: 10px;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .option-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .option-card-image-container {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      background: #f8f8f8;
+    }
+
+    .option-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .option-card-content {
+      padding: 20px 20px 16px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .option-card-content h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .details {
+      font-size: 0.98rem;
+      color: #444;
+      margin-bottom: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+    }
+
+    .description {
+      font-size: 0.97rem;
+      color: #555;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+
+    .option-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      gap: 10px;
+    }
+
+    .option-card-price {
+      font-size: 0.97rem;
+      color: #222;
+    }
+
+    .btn-view-trip {
+      display: inline-block;
+      background: #4caf50;
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      text-align: center;
+      transition: background 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-view-trip:hover {
+      background: #388e3c;
+    }
+
+    /* Additional styles for itinerary results section */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: var(--primary-dark-charcoal);
+      text-align: center;
+    }
+
+    .itinerary-card {
+      background: var(--background-light);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .itinerary-card h2 {
+      font-size: 1.5em;
+      margin: 0 0 10px 0;
+      color: var(--primary-dark-charcoal);
+    }
+
+    .itinerary-card img {
+      max-width: 100%;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .itinerary-card p {
+      margin: 5px 0;
+      color: var(--text-medium);
+    }
+
+    /* New styles for recommended itineraries grid */
+    .recommended-itineraries-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      justify-content: center;
+      margin-top: 32px;
+    }
+
+    .recommended-itineraries-scroll {
+      display: flex;
+      flex-direction: row;
+      gap: 24px;
+      overflow-x: auto;
+      padding-bottom: 16px;
+      margin: 32px 0;
+      scroll-snap-type: x mandatory;
+    }
+
+    .option-card {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      min-width: 320px;
+      max-width: 340px;
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      scroll-snap-align: start;
+      transition: box-shadow 0.2s;
+    }
+
+    .option-card:hover {
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.16);
+    }
+
+    .option-card-image-container {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      background: #f8f8f8;
+    }
+
+    .option-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .option-card-content {
+      padding: 20px 20px 16px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .option-card-content h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .details {
+      font-size: 0.98rem;
+      color: #444;
+      margin-bottom: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+    }
+
+    .description {
+      font-size: 0.97rem;
+      color: #555;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+
+    .option-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      gap: 10px;
+    }
+
+    .option-card-price {
+      font-size: 0.97rem;
+      color: #222;
+    }
+
+    .btn-view-trip {
+      display: inline-block;
+      background: #4caf50;
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      text-align: center;
+      transition: background 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-view-trip:hover {
+      background: #388e3c;
+    }
+
+    /* Add these styles to your existing <style> section */
+
+    .container-header {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    header.page-top-header {
+      background: var(--primary-dark-charcoal);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1001;
+      transition: background 0.3s;
+      padding: 0;
+      height: 60px;
+    }
+
+    header.page-top-header h1.logo {
+      color: var(--text-on-dark);
+      margin: 0;
+      font-size: 1.8em;
+      font-weight: 700;
+    }
+
+    header.page-top-header nav ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      height: 60px;
+    }
+
+    header.page-top-header nav ul li {
+      margin-left: 25px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+    }
+
+    header.page-top-header nav ul li a {
+      text-decoration: none;
+      color: var(--text-on-dark-subtle);
+      font-weight: 500;
+      transition: color 0.3s ease;
+      font-size: 0.9em;
+    }
+
+    header.page-top-header nav ul li a:hover,
+    header.page-top-header nav ul li a.active {
+      color: var(--primary-bright-yellow);
+    }
+
+    /* Make sure the main content doesn't get hidden behind the header */
+    .container {
+      margin-top: 20px;
+    }
+
+    /* Mobile responsive styles */
+    @media (max-width: 768px) {
+      .container-header {
+        flex-direction: column;
+        height: auto;
+        padding: 10px 20px;
+      }
+
+      header.page-top-header nav ul {
+        flex-direction: column;
+        height: auto;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      header.page-top-header nav ul li {
+        margin-left: 0;
+        height: auto;
+      }
+
+      header.page-top-header {
+        height: auto;
+        position: relative;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="page-top-header">
+    <div class="container-header">
+      <h1 class="logo" style="cursor:pointer;" onclick="window.location.href='intro.html'">Flow</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#travel-destinations">Destinations</a></li>
+          <li><a href="index.html#popular-trips">Popular Trips</a></li>
+          <li><a href="index.html#contact-footer">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="main-content-area container">
+    <div class="options-title-section" data-aos="fade-down">
+      <h1 id="optionsPageTitle"><i class="fas fa-th-list"></i> Here Are Your Itinerary Options</h1>
+    </div>
+
+    <div class="options-grid" id="itineraryOptionsGrid">
+      {/* Itinerary cards will be dynamically inserted here */}
+    </div>
+    <p id="optionsMessage" style="display:none;"></p>
+
+    <div class="back-button-container" data-aos="fade-up" data-aos-delay="300">
+      <a href="more_info.html" id="backToPreferencesBtn" class="btn-back">
+        <i class="fas fa-arrow-left"></i> Back to Preferences
+      </a>
+    </div>
+  </div>
+
+  <!-- New Itinerary Results Section -->
+  <div class="container">
+    <h1>Recommended Itineraries</h1>
+    <div class="recommended-itineraries-scroll" id="recommendedItinerariesScroll"></div>
+  </div>
+
+  <footer class="page-bottom-footer container-fluid">
+    <div class="container">
+      <p>© <span id="year"></span> Travel.AI - All Rights Reserved.</p>
+      <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </div>
+  </footer>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 600,
+      once: true,
+      offset: 30,
+    });
+  </script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const itineraryOptionsGrid = document.getElementById('itineraryOptionsGrid');
+    const optionsMessage = document.getElementById('optionsMessage');
+    const backToPreferencesBtn = document.getElementById('backToPreferencesBtn');
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const optionsDataString = localStorage.getItem('itineraryOptions');
+      const userPrefsString = localStorage.getItem('currentUserPreferences');
+
+      let currentUserPreferences = {};
+      if (userPrefsString) {
+        try { currentUserPreferences = JSON.parse(userPrefsString); }
+        catch (e) { console.error("Error parsing currentUserPreferences from localStorage on options page", e); }
+      }
+
+      // Update back button to link to more_info.html with initial params
+      if (currentUserPreferences.destination_country) {
+        let backParams = `destination=${currentUserPreferences.destination_country || ''}`;
+        if (currentUserPreferences.startDate) backParams += `&startDate=${currentUserPreferences.startDate}`;
+        if (currentUserPreferences.endDate) backParams += `&endDate=${currentUserPreferences.endDate}`;
+        if (currentUserPreferences.starting_city) backParams += `&starting_city=${currentUserPreferences.starting_city}`;
+        backToPreferencesBtn.href = `more_info.html?${backParams}`;
+      } else {
+        backToPreferencesBtn.href = 'index.html';
+      }
+
+      if (optionsDataString) {
+        try {
+          const options = JSON.parse(optionsDataString);
+          displayItineraryOptions(options, currentUserPreferences);
+        } catch (e) {
+          console.error("Error parsing itinerary options from localStorage:", e);
+          if (optionsMessage) {
+            optionsMessage.textContent = "Could not load options. Please try again or refine your search.";
+            optionsMessage.style.display = 'block';
+          }
+        }
+      } else {
+        const serverMsg = localStorage.getItem('generateItineraryMessage');
+        if (optionsMessage) {
+          optionsMessage.textContent = serverMsg || "No options found. This could be because your previous search yielded no results, or you navigated here directly. Please go back and start a search.";
+          optionsMessage.style.display = 'block';
+          if (serverMsg) localStorage.removeItem('generateItineraryMessage');
+        }
+      }
+    });
+
+    function displayItineraryOptions(options, currentUserPreferences) {
+      if (!itineraryOptionsGrid || !optionsMessage) return;
+
+      itineraryOptionsGrid.innerHTML = '';
+      if (!options || options.length === 0) {
+        optionsMessage.textContent = 'No itineraries match your selected criteria.';
+        optionsMessage.style.display = 'block';
+        return;
+      }
+      optionsMessage.style.display = 'none';
+
+      // Main grid
+      options.forEach(option => {
+        itineraryOptionsGrid.appendChild(renderItineraryCard(option));
+      });
+
+      // Recommended itineraries scroll section
+      const recommendedDiv = document.getElementById('recommendedItinerariesScroll');
+      recommendedDiv.innerHTML = '';
+      options.slice(0, 10).forEach(option => {
+        recommendedDiv.appendChild(renderItineraryCard(option));
+      });
+    }
+
+    function renderItineraryCard(option) {
+      // FIXED: Complete price calculation using Google Sheets field names
+      let priceDisplay = "Price on request";
+
+      // Check for actual cost first (Google Sheets field names with colons)
+      const costField = option['approx_cost_usd_pp:'] || option.approx_cost_usd_pp || 0;
+      const budgetField = option['budget_level_csv:'] || option.budget_level || option.budget_tag || '';
+      const durationField = parseInt(option['duration_days:'] || option.duration_days || 0);
+
+      console.log('💰 Options page price debug:', {
+        title: option.title || option['title:'],
+        costField: costField,
+        budgetField: budgetField,
+        durationField: durationField
+      });
+
+      if (costField && parseFloat(costField) > 0) {
+        const totalCost = parseFloat(costField);
+        const duration = durationField > 0 ? durationField : 1;
+        const perDayCost = Math.round(totalCost / duration);
+        priceDisplay = `$${perDayCost}`;
+      } else if (budgetField && budgetField.trim()) {
+        const budget = budgetField.toLowerCase().trim();
+        if (budget.includes('budget') || budget.includes('low')) {
+          priceDisplay = "$50 - $100";
+        } else if (budget.includes('medium') || budget.includes('mid')) {
+          priceDisplay = "$100 - $200";
+        } else if (budget.includes('luxury') || budget.includes('high')) {
+          priceDisplay = "$200+";
+        } else {
+          priceDisplay = budget; // Show the budget level as-is
+        }
+      }
+
+      const card = document.createElement('div');
+      card.className = 'option-card';
+      card.dataset.itineraryId = option.id || option['id:'];
+      card.dataset.tripObject = JSON.stringify(option);
+
+      card.innerHTML = `
+    <div class="option-card-image-container">
+      <img class="option-image" src="${option['image_url:'] || option.image_url || 'https://via.placeholder.com/300x180/CCCCCC/FFFFFF?text=Explore'}" alt="${option['title:'] || option.title}" loading="lazy">
+    </div>
+    <div class="option-card-content">
+      <h4>${option['title:'] || option.title || "Travel Itinerary"}</h4>
+      <div class="details">
+        <span><i class="fas fa-calendar-alt"></i> ${option['duration_days:'] || option.duration_days || 'N/A'} Days</span>
+        <span><i class="fas fa-tags"></i> ${option['budget_level_csv:'] || option.budget_tag || 'N/A'}</span>
+        ${option['primary_interest_category:'] || option.primary_interest ? `<span><i class="fas fa-star"></i> ${option['primary_interest_category:'] || option.primary_interest}</span>` : ''}
+      </div>
+      <p class="description">${(option['description_long:'] || option.description || 'Explore this exciting itinerary!').substring(0, 90)}${(option['description_long:'] || option.description || '').length > 90 ? "..." : ""}</p>
+      <div class="option-card-footer">
+        <span class="option-card-price">From <strong>${priceDisplay}</strong> per day</span>
+        <a href="trip_details.html?id=${option['id:'] || option.id}" class="btn-view-trip">View Details</a>
+      </div>
+    </div>
+  `;
+
+      card.querySelector('.btn-view-trip').addEventListener('click', function (e) {
+        e.preventDefault();
+        localStorage.setItem('selectedTripForDetailView', card.dataset.tripObject);
+        localStorage.setItem('currentUserPreferences', JSON.stringify({
+          destination_country: option.destination_country_for_link || (option.region ? option.region.toLowerCase() : '')
+        }));
+        window.location.href = `trip_details.html?id=${option['id:'] || option.id}`;
+      });
+
+      return card;
+    }
+
+    // Add this to itinerary_options.html for debugging
+    console.log('🔍 DEBUGGING OPTIONS PAGE DATA...');
+    const optionsData = localStorage.getItem('itineraryOptions');
+    if (optionsData) {
+      const parsed = JSON.parse(optionsData);
+      console.log('📊 OPTIONS DATA ANALYSIS:');
+      console.log('- Total options:', parsed.length);
+      parsed.slice(0, 3).forEach((option, index) => {
+        console.log(`Option ${index + 1}:`, {
+          id: option['id:'] || option.id,
+          title: option['title:'] || option.title,
+          cost_field: option['approx_cost_usd_pp:'] || option.approx_cost_usd_pp,
+          budget_field: option['budget_level_csv:'] || option.budget_level,
+          image_field: option['image_url:'] || option.image_url,
+          all_fields: Object.keys(option)
+        });
+      });
+    }
+  </script>
+</body>
+
+</html>

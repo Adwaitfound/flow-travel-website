@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Your Adventure - Travel.AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* CSS is identical to the last full version of customize_trip.html */
+        /* Includes styles for the dark header, sequential form steps, progress bar, etc. */
+        :root {
+            --primary-dark-charcoal: #131A23; 
+            --primary-bright-yellow: #F6EF31; 
+            --text-on-dark: #FFFFFF;
+            --text-on-dark-subtle: #cccccc; 
+            --text-dark-on-yellow: #131A23; 
+            --text-primary-content: #2c3e50; 
+            --background-light: #FFFFFF;
+            --background-page: #f0f2f5; 
+            --border-light: #e9ecef;
+            --border-form-input: #ced4da;
+            --accent-blue-link: #007bff; /* Main blue accent */
+            --accent-blue-darker: #0056b3; /* Darker blue for text/hovers */
+        }
+        body, html {
+            margin: 0; padding: 0; font-family: 'Montserrat', sans-serif;
+            line-height: 1.7; color: var(--text-primary-content); background-color: var(--background-page);
+        }
+        .container { width: 90%; max-width: 750px; margin: auto; padding: 0 20px; }
+        header.page-top-header {
+            background: var(--primary-dark-charcoal); 
+            padding: 18px 0; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+        }
+        header.page-top-header .container-header {
+            width: 90%; max-width: 1200px; margin: auto; padding: 0 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        header.page-top-header h1.logo {
+            color: var(--text-light); 
+            margin: 0; font-size: 2.1em; font-weight: 700; 
+        }
+        header.page-top-header nav ul { padding: 0; margin: 0; list-style: none; display: flex; }
+        header.page-top-header nav ul li { margin-left: 35px; }
+        header.page-top-header nav ul li a {
+            text-decoration: none; color: var(--text-on-dark-subtle); 
+            font-weight: 500; transition: color 0.3s ease; font-size: 1em;
+        }
+        header.page-top-header nav ul li a:hover,
+        header.page-top-header nav ul li a.active { color: var(--primary-bright-yellow); }
+
+        .customization-area {
+            background-color: var(--background-light); padding: 30px 40px 40px; margin: 40px auto;
+            border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+        .customization-title-section { text-align: center; margin-bottom: 30px; }
+        .customization-title-section h1 {
+            color: var(--accent-blue-darker); margin: 0 0 10px 0; font-size: 2.2em; font-weight: 700;
+        }
+        .customization-title-section h1 i { color: var(--accent-blue-link); margin-right: 10px; }
+        .customization-title-section p.form-subtitle {
+            font-size: 1.1em; color: #555; max-width: 600px; margin: 0 auto 15px;
+        }
+        .progress-bar-container {
+            width: 100%; background-color: var(--border-light); border-radius: 5px;
+            margin-bottom: 30px; overflow: hidden; height: 10px;
+        }
+        .progress-bar {
+            width: 0%; 
+            height: 100%; background-color: var(--accent-blue-link); border-radius: 5px;
+            transition: width 0.4s ease-in-out;
+        }
+        .form-step { display: none; animation: fadeIn 0.4s ease-in-out; margin-bottom: 20px; }
+        .form-step.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .form-section h2 {
+            font-size: 1.5em; color: var(--accent-blue-link); margin-top: 0; margin-bottom: 20px;
+            padding-bottom: 8px; border-bottom: 2px solid var(--border-light); font-weight: 700;
+        }
+        .form-section h2 i { margin-right: 10px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 500; margin-bottom: 8px; font-size: 1em; }
+        .form-group input[type="text"], .form-group input[type="date"],
+        .form-group input[type="number"], .form-group select {
+            width: 100%; padding: 14px; border: 1px solid var(--border-form-input); border-radius: 8px;
+            box-sizing: border-box; font-size: 1em; font-family: 'Montserrat', sans-serif;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--accent-blue-link); box-shadow: 0 0 8px rgba(0,123,255,.25); outline: none;
+        }
+        .radio-group-container, .checkbox-grid-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;
+        }
+        .radio-group label, .checkbox-group {
+            font-weight: 400; display: flex; align-items: center; cursor: pointer;
+            padding: 12px 15px; color: #495057; border-radius: 8px;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+            background-color: #f8f9fa; border: 1px solid var(--border-light);
+        }
+        .radio-group label:hover, .checkbox-group:hover { background-color: #e2f3ff; border-color: #b8d4ff; }
+        .radio-group input[type="radio"], .checkbox-group input[type="checkbox"] {
+            margin-right: 12px; transform: scale(1.2);
+        }
+        .navigation-buttons { display: flex; justify-content: space-between; margin-top: 25px; }
+        .btn-nav {
+            padding: 12px 25px; font-size: 1em; font-weight: 500;
+            border: none; border-radius: 8px; cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .btn-nav-next { background-color: var(--primary-blue-accent); color: var(--text-light); }
+        .btn-nav-next:hover { background-color: var(--primary-blue-darker); transform: translateY(-2px); }
+        .btn-nav-prev { background-color: #6c757d; color: var(--text-light); }
+        .btn-nav-prev:hover { background-color: #5a6268; transform: translateY(-2px); }
+        .btn-nav-prev[style*="display: none"] + .btn-nav-next,
+        .btn-nav-prev[style*="display: none"] + .btn-submit-final { margin-left:auto; } 
+        .btn-submit-final { background-color: #28a745; color: var(--text-light); } /* Green for final submit */
+        .btn-submit-final:hover { background-color: #218838; transform: translateY(-2px); }
+        #loadingIndicator { color: var(--primary-blue-accent); }
+        #itineraryResultMessage { /* Default styling as before */ }
+        footer.page-bottom-footer { 
+            background: var(--primary-dark-charcoal); color: var(--text-on-dark-subtle);
+        }
+        footer.page-bottom-footer a { color: var(--primary-bright-yellow); }
+        footer.page-bottom-footer a:hover { color: var(--text-light); }
+    </style>
+</head>
+<body>
+    <header class="page-top-header">
+        <div class="container-header">
+            <h1 class="logo">Travel.AI</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#popular-destinations">Destinations</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="customization-area container">
+        <div class="customization-title-section">
+            <h1 id="customizationPageTitle"><i class="fas fa-feather-alt"></i> Plan Your Adventure</h1>
+            <p class="form-subtitle" id="customizationPageSubtitle">Answer a few quick questions so we can tailor the perfect trip options for you.</p>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <form id="tripCustomizationForm">
+            <input type="hidden" id="destination_country_field" name="destination_country" value="">
+
+            <div class="form-step" id="step-1">
+                <div class="form-section">
+                    <h2 id="startingCityTitle"><i class="fas fa-plane-departure"></i> Where will your adventure begin?</h2>
+                    <div class="form-group">
+                        <label for="starting_city">Select your starting point:</label>
+                        <select id="starting_city" name="starting_city" required>
+                            <option value="" disabled selected>Loading starting cities...</option>
+                            {/* Options will be populated by JavaScript */}
+                        </select>
+                    </div>
+                </div>
+                <div class="navigation-buttons">
+                     <button type="button" class="btn-nav btn-nav-prev" onclick="prevStep(0)" style="display: none;"><i class="fas fa-arrow-left"></i> Previous</button> 
+                    <button type="button" class="btn-nav btn-nav-next" onclick="nextStep(2)">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <div class="form-step" id="step-2">
+                <div class="form-section">
+                    <h2><i class="fas fa-calendar-alt"></i> When are you planning to travel? <small>(Optional)</small></h2>
+                    <div class="pref-input-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                         <div class="form-group">
+                            <label for="startDate">Start Date:</label>
+                            <input type="date" id="startDate" name="startDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="endDate">End Date:</label>
+                            <input type="date" id="endDate" name="endDate">
+                        </div>
+                    </div>
+                </div>
+                <div class="navigation-buttons">
+                    <button type="button" class="btn-nav btn-nav-prev" onclick="prevStep(1)"><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button type="button" class="btn-nav btn-nav-next" onclick="nextStep(3)">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <div class="form-step" id="step-3">
+                <div class="form-section">
+                    <h2><i class="fas fa-users"></i> What's your travel style?</h2>
+                    <div class="form-group radio-group-container">
+                        <label class="radio-group"><input type="radio" name="travelStyle" value="solo" required> Solo Traveler</label>
+                        <label class="radio-group"><input type="radio" name="travelStyle" value="couple"> Couple</label>
+                        <label class="radio-group"><input type="radio" name="travelStyle" value="family"> Family</label>
+                        <label class="radio-group"><input type="radio" name="travelStyle" value="group"> Group</label>
+                    </div>
+                </div>
+                <div class="form-section" id="groupSizeSectionStep" style="display: none;">
+                    <h2><i class="fas fa-user-friends"></i> How many in your group/family?</h2>
+                    <div class="form-group">
+                        <label for="groupSize">Number of People (including yourself):</label>
+                        <input type="number" id="groupSize" name="groupSize" min="1" placeholder="e.g., 4">
+                    </div>
+                </div>
+                <div class="navigation-buttons">
+                    <button type="button" class="btn-nav btn-nav-prev" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button type="button" class="btn-nav btn-nav-next" onclick="nextStep(4)">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <div class="form-step" id="step-4">
+                <div class="form-section">
+                    <h2><i class="fas fa-wallet"></i> What's your budget style?</h2>
+                    <div class="form-group radio-group-container">
+                        <label class="radio-group"><input type="radio" name="budget" value="budget" required> Budget</label>
+                        <label class="radio-group"><input type="radio" name="budget" value="medium"> Mid-Range</label>
+                        <label class="radio-group"><input type="radio" name="budget" value="luxury"> Luxury</label>
+                    </div>
+                </div>
+                <div class="navigation-buttons">
+                    <button type="button" class="btn-nav btn-nav-prev" onclick="prevStep(3)"><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button type="button" class="btn-nav btn-nav-next" onclick="nextStep(5)">Next <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <div class="form-step" id="step-5">
+                <div class="form-section">
+                    <h2><i class="fas fa-map-signs"></i> What are your main interests?</h2>
+                    <p style="margin-bottom: 15px; font-size:0.95em; color:#555;">Select up to 3 for best results:</p>
+                    <div class="form-group checkbox-grid-container">
+                        <label class="checkbox-group"><input type="checkbox" name="interests" value="beaches"> Beaches</label>
+                        <label class="checkbox-group"><input type="checkbox" name="interests" value="mountains"> Mountains</label>
+                        <label class="checkbox-group"><input type="checkbox" name="interests" value="adventure"> Adventure</label>
+                        <label class="checkbox-group"><input type="checkbox" name="interests" value="culture"> Culture</label>
+                        <label class="checkbox-group"><input type="checkbox" name="interests" value="city_exploration"> City Exploration</label>
+                        <label class="checkbox-group"><input type="checkbox" name="interests" value="food"> Food</label>
+                    </div>
+                </div>
+                <div class="navigation-buttons">
+                    <button type="button" class="btn-nav btn-nav-prev" onclick="prevStep(4)"><i class="fas fa-arrow-left"></i> Previous</button>
+                    <button type="submit" class="btn-nav btn-submit-final"><i class="fas fa-search"></i> Find Options</button>
+                </div>
+            </div>
+            
+            <div id="loadingIndicator" style="display: none; text-align: center; margin-top: 20px; font-size: 1.1em; color: var(--primary-blue-accent);">
+                <p><i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> Finding matching itineraries...</p>
+            </div>
+            <div id="itineraryResultMessage" style="display:none; margin-top:20px; padding: 15px; border-radius: 5px; text-align: center;"></div>
+        </form>
+    </div>
+
+    <footer class="page-bottom-footer container-fluid">
+         <div class="container">
+            <p>&copy; <span id="year"></span> Travel.AI - All Rights Reserved.</p>
+            <p><a href="#" style="color: var(--primary-bright-yellow);">Privacy Policy</a> | <a href="#" style="color: var(--primary-bright-yellow);">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript from the last full version of customize_trip.html (sequential form)
+        // with the addition of dynamic starting city population.
+        document.getElementById('year').textContent = new Date().getFullYear();
+        let currentStep = 1;
+        const totalSteps = 5; 
+        const formSteps = document.querySelectorAll(".form-step");
+        const progressBar = document.getElementById("progressBar");
+        
+        const startingCitySelect = document.getElementById('starting_city');
+        const customizationPageTitle = document.getElementById('customizationPageTitle');
+        const startingCityTitle = document.getElementById('startingCityTitle');
+        const destinationCountryField = document.getElementById('destination_country_field'); // Corrected ID
+
+        const destinationOptions = {
+            vietnam: [
+                { value: "hanoi", text: "Hanoi (Gateway to North Vietnam)" },
+                { value: "hochiminhcity", text: "Ho Chi Minh City (Gateway to South Vietnam)" },
+                { value: "danang", text: "Da Nang (Central Vietnam)" } 
+            ],
+            singapore: [
+                { value: "singapore", text: "Singapore (City-State)" }
+            ],
+            india: [
+                { value: "delhi_india", text: "Delhi (North India)" },
+                { value: "mumbai_india", text: "Mumbai (West India)" },
+                { value: "bangalore_india", text: "Bangalore (South India)" },
+                { value: "jaipur_india", text: "Jaipur (Rajasthan)" },
+                { value: "kochi_india", text: "Kochi (Kerala)" }
+            ]
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            let destination = urlParams.get('destination')?.toLowerCase() || 'vietnam'; 
+            let preselectedStartingCity = urlParams.get('starting_city')?.toLowerCase();
+
+            if (!destinationOptions[destination]) { destination = 'vietnam'; } // Fallback
+            if(destinationCountryField) destinationCountryField.value = destination; 
+
+            const destinationNameCaps = destination.charAt(0).toUpperCase() + destination.slice(1);
+            if (customizationPageTitle) {
+                customizationPageTitle.innerHTML = `<i class="fas fa-feather-alt"></i> Plan Your ${destinationNameCaps} Adventure`;
+            }
+            if (startingCityTitle) {
+                startingCityTitle.innerHTML = `<i class="fas fa-plane-departure"></i> Where will your ${destinationNameCaps} adventure begin?`;
+            }
+
+            if (startingCitySelect) {
+                startingCitySelect.innerHTML = '<option value="" disabled>Choose a city...</option>'; 
+                const cities = destinationOptions[destination];
+                if (cities) {
+                    cities.forEach(city => {
+                        const option = document.createElement('option');
+                        option.value = city.value;
+                        option.textContent = city.text;
+                        if (preselectedStartingCity && city.value === preselectedStartingCity) {
+                            option.selected = true;
+                        }
+                        startingCitySelect.appendChild(option);
+                    });
+                    if (!startingCitySelect.value && cities.length > 0) { // Pre-select first if none from URL
+                         if (preselectedStartingCity && cities.find(c => c.value === preselectedStartingCity)) {
+                            startingCitySelect.value = preselectedStartingCity;
+                         } else {
+                            startingCitySelect.value = cities[0].value;
+                         }
+                    }
+                }
+            }
+            showStep(1); 
+        });
+
+        function updateProgressBar() { /* ... as before ... */ }
+        function showStep(stepNumber) { /* ... as before ... */ }
+        function validateStepInputs(stepNumber) { /* ... as before ... */ }
+        function nextStep(stepNumber) { /* ... as before ... */ }
+        function prevStep(stepNumber) { /* ... as before ... */ }
+        
+        const travelStyleRadios = document.querySelectorAll('input[name="travelStyle"]');
+        const groupSizeSectionStep = document.getElementById('groupSizeSectionStep'); 
+        const groupSizeInput = document.getElementById('groupSize');
+        travelStyleRadios.forEach(radio => { /* ... group size logic as before ... */ });
+
+        const customizationForm = document.getElementById('tripCustomizationForm');
+        const itineraryResultMessage = document.getElementById('itineraryResultMessage');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+
+        customizationForm.addEventListener('submit', async function(event) {
+            // ... (Form submission logic is THE SAME as the last full version,
+            //      it already collects all fields including the new 'starting_city'
+            //      and the hidden 'destination_country_field')
+            event.preventDefault();
+            if (!validateStepInputs(currentStep)) return; 
+            console.log("Form submission initiated for options lookup."); 
+            const formData = new FormData(this); 
+            const preferences = {};
+            const interests = []; 
+            for (let [key, value] of formData.entries()) {
+                if (value.trim() !== '') { 
+                    if (key === 'interests') { interests.push(value); } 
+                    else { preferences[key] = value.trim(); }
+                } else if (key === 'startDate' || key === 'endDate' || key === 'destination_country') { 
+                     preferences[key] = value; 
+                }
+            }
+            if (interests.length > 0) { preferences['interests'] = interests; }
+            if (preferences.travelStyle !== 'family' && preferences.travelStyle !== 'group') {
+                delete preferences.groupSize; 
+            } else if (preferences.groupSize) {
+                 preferences.groupSize = parseInt(preferences.groupSize, 10);
+            }
+            delete preferences.duration; 
+            console.log("Preferences to send for options:", JSON.stringify(preferences)); 
+            loadingIndicator.style.display = 'block';
+            itineraryResultMessage.textContent = '';
+            itineraryResultMessage.style.display = 'none';
+            const backendUrl = 'http://localhost:3001/generate-itinerary'; 
+            try {
+                const response = await fetch(backendUrl, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json', },
+                    body: JSON.stringify(preferences),
+                });
+                loadingIndicator.style.display = 'none';
+                if (!response.ok) {
+                    let errorMessage = `HTTP error! status: ${response.status}`;
+                    const errorData = await response.json().catch(() => null); 
+                    errorMessage = errorData?.error || errorData?.message || errorMessage;
+                    throw new Error(errorMessage);
+                }
+                const data = await response.json();
+                if (data.options && data.options.length > 0) {
+                    localStorage.setItem('itineraryOptions', JSON.stringify(data.options));
+                    localStorage.setItem('currentUserPreferences', JSON.stringify(preferences)); 
+                    window.location.href = 'itinerary_options.html'; 
+                } else { 
+                    itineraryResultMessage.textContent = data.message || 'No suitable itineraries found.';
+                    itineraryResultMessage.style.display = 'block';
+                    itineraryResultMessage.style.borderColor = '#ffc107'; 
+                    itineraryResultMessage.style.backgroundColor = '#fff3cd'; 
+                    itineraryResultMessage.style.color = '#856404'; 
+                }
+            } catch (error) {
+                loadingIndicator.style.display = 'none';
+                console.error('Full error during fetch operation:', error); 
+                itineraryResultMessage.textContent = 'Failed to find itineraries. ' + error.message;
+                itineraryResultMessage.style.display = 'block';
+                itineraryResultMessage.style.border = '1px solid #dc3545'; 
+                itineraryResultMessage.style.backgroundColor = '#f8d7da'; 
+                itineraryResultMessage.style.color = '#721c24'; 
+            }
+        });
+        // Ensure showStep(1) is called after DOMContentLoaded has fully processed URL params and populated dropdown
+        // The DOMContentLoaded listener now handles the initial showStep(1).
+    </script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Travel.AI Journey Intro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      width: 100vw; height: 100vh;
+      overflow: hidden;
+      font-family: 'Montserrat', sans-serif;
+      background: #000000;
+    }
+    .video-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      object-fit: cover;
+      z-index: 1;
+      filter: brightness(0.7);
+    }
+    .center-content {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      text-align: center;
+      pointer-events: none;
+    }
+    .center-content h1 {
+      font-size: 3em;
+      font-weight: 400;
+      margin-bottom: 0.3em;
+      color: #f6ef31;
+      text-shadow: 0 4px 24px #131a23cc;
+    }
+    .enter-btn {
+      padding: 0.75em 2em;
+      font-size: 1.1em;
+      background: linear-gradient(90deg, #f6ef31 0%, #95cb00 100%);
+      color: #131a23;
+      border: none;
+      border-radius: 24px;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 4px 24px #131a2340, 0 2px 8px #f6ef3120;
+      transition: 
+        transform 0.18s,
+        box-shadow 0.18s,
+        background 0.18s,
+        color 0.18s;
+      pointer-events: auto;
+      letter-spacing: 0.03em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7em;
+    }
+    .enter-btn:hover, .enter-btn:focus {
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 8px 32px #131a2360, 0 4px 16px #f6ef3140;
+      background: linear-gradient(90deg, #95cb00 0%, #f6ef31 100%);
+      color: #000;
+      outline: none;
+    }
+    .enter-btn .arrow {
+      font-size: 1.2em;
+      transition: transform 0.18s;
+    }
+    .enter-btn:hover .arrow, .enter-btn:focus .arrow {
+      transform: translateX(6px);
+    }
+    .sound-btn {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 10;
+      background: rgba(0,0,0,0.55);
+      color: #f6ef31;
+      border: none;
+      border-radius: 50%;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.7em;
+      cursor: pointer;
+      box-shadow: 0 2px 12px #000a;
+      transition: background 0.2s;
+      pointer-events: auto;
+    }
+    .sound-btn:hover {
+      background: #f6ef31;
+      color: #131a23;
+    }
+    @media (max-width: 700px) {
+      .center-content h1 { font-size: 2em; }
+      .sound-btn { bottom: 16px; right: 16px; width: 44px; height: 44px; font-size: 1.2em; }
+    }
+  </style>
+</head>
+<body>
+  <video class="video-bg" id="bgVideo" autoplay playsinline></video>
+  <button class="sound-btn" id="soundBtn" aria-label="Toggle sound" title="Toggle sound">
+    <span id="soundIcon">&#128263;</span>
+  </button>
+  <div class="center-content">
+    <h1>Enter a Flow State of Travel.</h1>
+    <button class="enter-btn" onclick="window.location.href='index.html'">
+      Enter
+      <span class="arrow">&#8594;</span>
+    </button>
+  </div>
+  <script>
+    // Video sources
+    const videoSources = [
+      "Travel1.mp4",
+      "Vietnam1.mp4",
+      "India1.mp4",
+      "Japan1.mp4",
+    ];
+    const video = document.getElementById('bgVideo');
+    const soundBtn = document.getElementById('soundBtn');
+    const soundIcon = document.getElementById('soundIcon');
+    let current = 0;
+    let timer = null;
+    let userInteracted = false;
+
+    // Start video muted for autoplay policy
+    video.muted = true;
+
+    function playNextVideo() {
+      video.src = videoSources[current];
+      video.currentTime = 0;
+      video.play();
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        current = (current + 1) % videoSources.length;
+        playNextVideo();
+      }, 30000); // 30 seconds
+    }
+
+    // Unmute and play after first user interaction
+    function enableAudioPlayback() {
+      if (!userInteracted) {
+        video.muted = false;
+        video.volume = 1;
+        video.play();
+        userInteracted = true;
+        updateSoundIcon();
+      }
+    }
+
+    // Toggle mute/unmute
+    function toggleSound() {
+      video.muted = !video.muted;
+      updateSoundIcon();
+      if (!userInteracted) userInteracted = true;
+      video.play();
+    }
+
+    function updateSoundIcon() {
+      if (video.muted) {
+        soundIcon.innerHTML = "&#128263;"; // Muted icon
+      } else {
+        soundIcon.innerHTML = "&#128266;"; // Sound on icon
+      }
+    }
+
+    // Attach events
+    soundBtn.addEventListener('click', toggleSound);
+    document.body.addEventListener('click', enableAudioPlayback, { once: true });
+
+    video.addEventListener('loadeddata', () => {
+      video.play();
+    });
+
+    // Start the loop
+    playNextVideo();
+    updateSoundIcon();
+  </script>
+</body>
+</html>

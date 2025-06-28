@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Flow - Your Next Adventure</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        :root {
+            --primary-dark-charcoal: #131A23;
+            --primary-bright-yellow: #F6EF31;
+            --text-on-dark: #FFFFFF;
+            --text-on-dark-subtle: #cccccc;
+            --text-dark-on-yellow: #131A23;
+            --text-primary-content: #2c3e50;
+            --background-light: #FFFFFF;
+            --background-page: #f8f9fa;
+            --border-light: #dee2e6;
+            --border-form-input: #ced4da;
+            --accent-greenish-yellow: #95cb00;
+            --accent-greenish-yellow-darker: #7da800;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary-content);
+            background-color: var(--background-page);
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        .container-header {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+
+        header.page-top-header {
+            background: transparent !important;
+            box-shadow: none !important;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1001;
+            transition: background 0.3s;
+            padding: 0;
+            height: 60px;
+        }
+
+        header.page-top-header h1.logo {
+            color: var(--text-on-dark);
+            margin: 0;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        header.page-top-header nav ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            height: 60px;
+        }
+
+        header.page-top-header nav ul li {
+            margin-left: 25px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        header.page-top-header nav ul li a {
+            text-decoration: none;
+            color: var(--text-on-dark-subtle);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        header.page-top-header nav ul li a:hover,
+        header.page-top-header nav ul li a.active {
+            color: var(--primary-bright-yellow);
+        }
+
+        .hero-main {
+            min-height: 500px;
+            padding: 100px 0 40px 0;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #131A23 0%, #2c3e50 100%);
+            color: white;
+            background-image: url('https://hips.hearstapps.com/hmg-prod/images/long-boat-docked-on-beach-in-krabi-thailand-summers-royalty-free-image-1622044679.jpg?crop=1.00xw:0.752xh;0,0.219xh&resize=1200:*');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-content-wrapper {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .last-minute-deals {
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: inline-block;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .last-minute-deals h2 {
+            font-size: 2.2em;
+            font-weight: 800;
+            margin: 0 0 6px 0;
+            color: var(--primary-bright-yellow);
+            text-transform: uppercase;
+        }
+
+        .last-minute-deals p {
+            font-size: 1em;
+            margin: 0 0 15px 0;
+            color: #f0f0f0;
+        }
+
+        .btn-view-deals {
+            background-color: var(--primary-bright-yellow);
+            color: var(--text-dark-on-yellow);
+            padding: 12px 30px;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+            font-size: 1em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-view-deals:hover {
+            background-color: #dfda2a;
+        }
+
+        .hero-form-bar {
+            margin-top: 20px;
+            background-color: var(--background-light);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            gap: 12px;
+        }
+
+        .hero-form-input-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 200px;
+        }
+
+        .hero-form-input-group label {
+            font-size: 0.75em;
+            font-weight: 600;
+            color: #6c757d;
+            margin-bottom: 6px;
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-form-input-group select,
+        .hero-form-input-group input[type="date"] {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 0.9em;
+            font-family: 'Montserrat', sans-serif;
+            border-radius: 6px;
+            border: 1px solid var(--border-form-input);
+            background-color: #fdfdfd;
+            color: var(--text-primary-content);
+            box-sizing: border-box;
+            height: 42px;
+        }
+
+        .btn-hero-submit-new {
+            padding: 10px 25px;
+            font-size: 0.95em;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            background-color: var(--accent-greenish-yellow);
+            color: var(--text-on-dark);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+            height: 42px;
+            align-self: flex-end;
+            flex-shrink: 0;
+        }
+
+        .btn-hero-submit-new:hover {
+            background-color: var(--accent-greenish-yellow-darker);
+            transform: translateY(-1px);
+        }
+
+        .btn-hero-submit-new i {
+            margin-left: 8px;
+        }
+
+        .section {
+            padding: 30px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2em;
+            color: var(--primary-dark-charcoal);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1em;
+            color: #555;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .destinations-grid-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        @media (max-width: 900px) {
+            .destinations-grid {
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            }
+        }
+
+        @media (max-width: 500px) {
+            .destinations-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        }
+
+        .destination-category-card {
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            aspect-ratio: 4 / 3;
+            background: #f8f9fa;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            transition: transform 0.35s cubic-bezier(.22, 1.12, .58, 1), box-shadow 0.25s;
+        }
+
+        .destination-category-card:hover,
+        .destination-category-card:focus {
+            transform: scale(1.045) translateY(-6px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18), 0 2px 8px #f6ef3120;
+            z-index: 3;
+        }
+
+        .destination-category-card .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+            padding: 28px 20px 18px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .destination-category-card h4 {
+            color: var(--text-on-dark);
+            margin: 0;
+            font-size: 1.5em;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+        }
+
+        .destination-category-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.35s cubic-bezier(.22, 1.12, .58, 1);
+        }
+
+        .destination-category-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .popular-trips-container-outer {
+            margin-top: 30px;
+            overflow-x: auto;
+            overflow-y: visible;
+            padding-bottom: 10px;
+        }
+
+        .popular-trips-grid {
+            display: flex;
+            flex-direction: row;
+            gap: 32px;
+            width: auto;
+            max-width: none;
+            margin: 0;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 10px;
+        }
+
+        .trip-card,
+        .trip-card-promo {
+            min-width: 320px;
+            max-width: 340px;
+            flex: 0 0 auto;
+            scroll-snap-align: start;
+        }
+
+        .trip-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+            min-width: 0;
+        }
+
+        .trip-card:hover {
+            transform: scale(1.035) translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18), 0 2px 8px #f6ef3120;
+            z-index: 2;
+        }
+
+        .trip-card-image-container {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .trip-card-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .trip-card-content {
+            padding: 18px 18px 14px 18px;
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .trip-card-rating {
+            color: #f6ef31;
+            font-size: 1em;
+            margin-bottom: 6px;
+        }
+
+        .trip-card-details {
+            font-size: 0.95em;
+            color: #888;
+            margin-bottom: 8px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .trip-card-description {
+            font-size: 0.97em;
+            color: #444;
+            margin-bottom: 10px;
+            flex: 1 1 auto;
+        }
+
+        .trip-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .trip-card-price {
+            font-weight: 600;
+            color: #131A23;
+            font-size: 1em;
+        }
+
+        .btn-view-trip {
+            background: #95cb00;
+            color: #131A23;
+            padding: 7px 18px;
+            border-radius: 6px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.98em;
+            transition: background 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-view-trip:hover {
+            background: #7da800;
+            color: #fff;
+        }
+
+        .trip-card-promo {
+            background-image: url('https://img.freepik.com/free-photo/beautiful-girl-standing-boat-looking-mountains-ratchaprapha-dam-khao-sok-national-park-surat-thani-province-thailand_335224-849.jpg?semt=ais_hybrid&w=740');
+            background-size: cover;
+            background-position: center;
+            color: #131A23;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            position: relative;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .promo-image-container {
+            display: none;
+        }
+
+        .promo-image {
+            display: none;
+        }
+
+        .promo-content {
+            background: none;
+            padding: 0;
+            flex: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .trip-card-promo h3 {
+            background: var(--primary-bright-yellow);
+            color: #131A23;
+            font-size: 1.8em;
+            font-weight: 800;
+            margin: 0 0 15px 0;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .trip-card-promo p {
+            background: rgba(255, 255, 255, 0.95);
+            color: #131A23;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin: 0 0 20px 0;
+            padding: 12px 20px;
+            border-radius: 6px;
+            backdrop-filter: blur(10px);
+        }
+
+        .trip-card-promo .btn-view-trip {
+            background: var(--accent-greenish-yellow);
+            color: #131A23;
+            font-weight: 700;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .trip-card-promo .btn-view-trip:hover {
+            background: var(--accent-greenish-yellow-darker);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(149, 203, 0, 0.3);
+        }
+
+        footer.page-bottom-footer {
+            background: var(--primary-dark-charcoal);
+            color: var(--text-on-dark-subtle);
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 50px;
+        }
+
+        footer.page-bottom-footer a {
+            color: var(--primary-bright-yellow);
+            text-decoration: none;
+        }
+
+        footer.page-bottom-footer a:hover {
+            color: var(--text-on-dark);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .hero-form-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .hero-form-input-group {
+                flex: 1 1 100%;
+            }
+
+            .btn-hero-submit-new {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="page-top-header">
+        <div class="container-header">
+            <h1 class="logo" style="cursor:pointer;" onclick="window.location.href='intro.html'">Flow</h1>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#travel-destinations">Destinations</a></li>
+                    <li><a href="#popular-trips">Popular Trips</a></li>
+                    <li><a href="#contact-footer">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero-main">
+        <div class="hero-content-wrapper">
+            <div class="last-minute-deals" data-aos="fade-down">
+                <h2>Discover Your Next Adventure</h2>
+                <p>AI-powered travel planning for unforgettable journeys</p>
+                <a href="#travel-destinations" class="btn-view-deals">Explore Now</a>
+            </div>
+
+            <form class="hero-form-bar" id="heroTripPlannerFormNew" data-aos="fade-up" data-aos-delay="200">
+                <div class="hero-form-input-group">
+                    <label for="heroDestinationNew">Where to?</label>
+                    <select id="heroDestinationNew" name="destination" required>
+                        <option value="" disabled selected>Choose destination</option>
+                        <option value="vietnam">Vietnam</option>
+                        <option value="singapore">Singapore</option>
+                        <option value="india">India</option>
+                        <option value="any">Surprise Me!</option>
+                    </select>
+                </div>
+                <div class="hero-form-input-group">
+                    <label for="heroStartDateNew">Departure Date</label>
+                    <input type="date" id="heroStartDateNew" name="startDate">
+                </div>
+                <div class="hero-form-input-group">
+                    <label for="heroEndDateNew">Return Date</label>
+                    <input type="date" id="heroEndDateNew" name="endDate">
+                </div>
+                <button type="submit" class="btn-hero-submit-new">
+                    Find Trips <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <section id="travel-destinations" class="section">
+        <div class="container">
+            <h3 class="section-title" data-aos="fade-up">Popular Destinations</h3>
+            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+                Discover amazing destinations tailored by our AI travel assistant
+            </p>
+            <div class="destinations-grid-container" data-aos="fade-up" data-aos-delay="200">
+                <div class="destinations-grid">
+                    <a href="all_itineraries.html?destination=vietnam" class="destination-category-card"
+                        data-aos="fade-up">
+                        <img src="https://www.travelandleisure.com/thmb/0yHeWZeBbUMSBeOrUq5kSV00o4w=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/TAL-fisherman-in-vietnam-WHENVIETNAM0124-53bac1777bc5497390ccc317e9c71295.jpg"
+                            alt="Vietnam" loading="lazy">
+                        <div class="card-overlay">
+                            <h4>Vietnam</h4>
+                        </div>
+                    </a>
+                    <a href="all_itineraries.html?destination=singapore" class="destination-category-card"
+                        data-aos="fade-up" data-aos-delay="100">
+                        <img src="https://wttc.org/getmedia/f57e1f1d-4b4f-4b97-8c15-9c90f8c913be/Singapore-image-pr-OG.jpg"
+                            alt="Singapore" loading="lazy">
+                        <div class="card-overlay">
+                            <h4>Singapore</h4>
+                        </div>
+                    </a>
+                    <a href="all_itineraries.html?destination=india" class="destination-category-card"
+                        data-aos="fade-up" data-aos-delay="200">
+                        <img src="https://www.intrepidtravel.com/adventures/wp-content/uploads/2018/10/Intrepid-Travel-india_taj-mahal_traveller-sunrise.jpg"
+                            alt="India" loading="lazy">
+                        <div class="card-overlay">
+                            <h4>India</h4>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="popular-trips" class="section">
+        <div class="container">
+            <h3 class="section-title" data-aos="fade-up">Popular Trips Curated by Flow</h3>
+            <p class="section-subtitle" id="popularDestSubtitle" data-aos="fade-up" data-aos-delay="100">
+                Discover amazing adventures based on what's trending.
+            </p>
+            <div id="loadingPopularMessage" style="display:block; text-align: center; padding: 40px;">
+                <i class="fas fa-spinner fa-spin"></i> Loading popular trips...
+            </div>
+            <div id="noPopularMessage" style="display:none; text-align: center; padding: 40px;">
+                No popular trips available at the moment. Try customizing your search!
+            </div>
+            <div class="popular-trips-container-outer" data-aos="fade-up" data-aos-delay="200">
+                <div class="popular-trips-grid" id="popularTripsContainer">
+                    <!-- Trip cards will be injected here by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact-footer" class="page-bottom-footer container-fluid">
+        <div class="container">
+            <p>© <span id="year"></span> Flow - All Rights Reserved.</p>
+            <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 700,
+            once: true,
+            offset: 50,
+        });
+    </script>
+    <script>
+        if (document.getElementById('year')) document.getElementById('year').textContent = new Date().getFullYear();
+
+        const heroTripPlannerFormNew = document.getElementById('heroTripPlannerFormNew');
+
+        if (heroTripPlannerFormNew) {
+            heroTripPlannerFormNew.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const destination = document.getElementById('heroDestinationNew').value;
+                const startDate = document.getElementById('heroStartDateNew').value;
+                const endDate = document.getElementById('heroEndDateNew').value;
+
+                if (destination === "any") {
+                    const availableDestinations = ["vietnam", "singapore", "india"];
+                    const randomDestination = availableDestinations[Math.floor(Math.random() * availableDestinations.length)];
+                    window.location.href = `all_itineraries.html?destination=${randomDestination}`;
+                    return;
+                }
+                if (startDate && endDate && new Date(endDate) < new Date(startDate)) {
+                    alert("End Date cannot be before Start Date."); return;
+                }
+
+                let queryParams = `destination=${destination}`;
+                if (startDate) queryParams += `&startDate=${startDate}`;
+                if (endDate) queryParams += `&endDate=${endDate}`;
+
+                let defaultStartingCity = '';
+                if (destination === 'vietnam') defaultStartingCity = 'hanoi';
+                else if (destination === 'singapore') defaultStartingCity = 'singapore';
+                else if (destination === 'india') defaultStartingCity = 'delhi_india';
+                if (defaultStartingCity) queryParams += `&starting_city=${defaultStartingCity}`;
+
+                window.location.href = `more_info.html?${queryParams}`;
+            });
+        }
+
+        function setDateRestrictions() {
+            const startInput = document.getElementById('heroStartDateNew');
+            const endInput = document.getElementById('heroEndDateNew');
+
+            if (startInput && endInput) {
+                const today = new Date();
+                const minDate = new Date();
+                minDate.setDate(today.getDate() + 15);
+                const minDateString = minDate.toISOString().split('T')[0];
+
+                startInput.min = minDateString;
+                endInput.min = minDateString;
+
+                startInput.addEventListener('change', function () {
+                    if (this.value) {
+                        endInput.min = this.value;
+                    }
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            setDateRestrictions();
+        });
+
+        // Popular trips functionality - FIXED
+        const popularTripsContainer = document.getElementById('popularTripsContainer');
+        const loadingPopularMsg = document.getElementById('loadingPopularMessage');
+        const noPopularMessage = document.getElementById('noPopularMessage');
+
+        async function fetchAndDisplayPopularTrips() {
+            if (!popularTripsContainer || !loadingPopularMsg || !noPopularMessage) return;
+
+            loadingPopularMsg.style.display = 'block';
+            popularTripsContainer.innerHTML = '';
+            noPopularMessage.style.display = 'none';
+
+            let allFeaturedTrips = [];
+            const destinationsToFetch = ['vietnam', 'singapore', 'india'];
+
+            try {
+                for (const dest of destinationsToFetch) {
+                    const response = await fetch(`/api/featured-itineraries?destination=${dest}&count=3`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.options && data.options.length > 0) {
+                            allFeaturedTrips.push(...data.options);
+                        }
+                    } else {
+                        console.warn(`Could not fetch featured trips for ${dest}: ${response.status}`);
+                    }
+                }
+                allFeaturedTrips.sort(() => 0.5 - Math.random());
+
+                loadingPopularMsg.style.display = 'none';
+                if (allFeaturedTrips.length > 0) {
+                    const promoCard = document.createElement('div');
+                    promoCard.className = 'trip-card trip-card-promo';
+                    promoCard.setAttribute('data-aos', 'fade-right');
+                    promoCard.innerHTML = `
+    <div class="promo-content">
+        <h3>Get set for Adventure!</h3>
+        <p>Save extra when you book your dream trip with Flow</p>
+        <a href="all_itineraries.html" class="btn-view-trip">EXPLORE TRIPS</a>
+    </div>
+`;
+                    popularTripsContainer.appendChild(promoCard);
+
+                    allFeaturedTrips.slice(0, 7).forEach((trip, index) => {
+                        const card = document.createElement('div');
+                        card.className = 'trip-card';
+                        card.setAttribute('data-aos', 'fade-up');
+                        card.setAttribute('data-aos-delay', (index + 1) * 100);
+
+                        // FIXED: Complete price calculation logic
+                        let priceDisplay = "Price on request";
+
+                        // Check for actual cost first (Google Sheets field names with colons)
+                        const costField = trip['approx_cost_usd_pp:'] || trip.approx_cost_usd_pp || 0;
+                        const budgetField = trip['budget_level_csv:'] || trip.budget_level || trip.budget_tag || '';
+                        const durationField = parseInt(trip['duration_days:'] || trip.duration_days || 0);
+
+                        if (costField && parseFloat(costField) > 0) {
+                            const totalCost = parseFloat(costField);
+                            const duration = durationField > 0 ? durationField : 1;
+                            const perDayCost = Math.round(totalCost / duration);
+                            priceDisplay = `$${perDayCost}`;
+                        } else if (budgetField && budgetField.trim()) {
+                            const budget = budgetField.toLowerCase().trim();
+                            if (budget.includes('budget') || budget.includes('low')) {
+                                priceDisplay = "$50 - $100";
+                            } else if (budget.includes('medium') || budget.includes('mid')) {
+                                priceDisplay = "$100 - $200";
+                            } else if (budget.includes('luxury') || budget.includes('high')) {
+                                priceDisplay = "$200+";
+                            } else {
+                                priceDisplay = budget; // Show the budget level as-is
+                            }
+                        }
+
+                        card.dataset.tripObject = JSON.stringify(trip);
+
+                        card.innerHTML = `
+                            <div class="trip-card-image-container">
+                                <img src="${trip['image_url:'] || trip.image_url || 'https://via.placeholder.com/300x180/CCCCCC/FFFFFF?text=Explore'}" alt="${trip['title:'] || trip.title}">
+                            </div>
+                            <div class="trip-card-content">
+                                <div class="trip-card-rating">
+                                    <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star-half-alt"></i> 4.5 
+                                </div>
+                                <h4>${trip['title:'] || trip.title}</h4>
+                                <div class="trip-card-details">
+                                    <span><i class="fas fa-calendar-alt"></i> ${trip['duration_days:'] || trip.duration_days || 'N/A'} Days</span>
+                                    ${trip['primary_interest_category:'] || trip.primary_interest ? `<span><i class="fas fa-map-marker-alt"></i> ${trip['primary_interest_category:'] || trip.primary_interest}</span>` : ''}
+                                </div>
+                                <p class="trip-card-description">${((trip['description_long:'] || trip.description || 'Explore this exciting destination!').substring(0, 90))}${((trip['description_long:'] || trip.description || '').length > 90) ? "..." : ""}</p>
+                                <div class="trip-card-footer">
+                                    <span class="trip-card-price">From <strong>${priceDisplay}</strong> per day</span>
+                                    <a href="#" class="btn-view-trip">VIEW TRIP</a>
+                                </div>
+                            </div>
+                        `;
+
+                        const handleTripClick = (e) => {
+                            e.preventDefault();
+                            const clickedCard = e.target.closest('.trip-card');
+                            const tripDataString = clickedCard.dataset.tripObject;
+                            if (tripDataString) {
+                                localStorage.setItem('selectedTripForDetailView', tripDataString);
+
+                                const currentPrefs = {
+                                    destination_country: getCountryFromTrip(JSON.parse(tripDataString))
+                                };
+                                localStorage.setItem('currentUserPreferences', JSON.stringify(currentPrefs));
+
+                                window.location.href = `trip_details.html?id=${JSON.parse(tripDataString)['id:'] || JSON.parse(tripDataString).id}`;
+                            } else {
+                                console.error("No trip data found on card.");
+                            }
+                        };
+
+                        card.querySelector('.btn-view-trip').addEventListener('click', handleTripClick);
+
+                        popularTripsContainer.appendChild(card);
+                    });
+                } else {
+                    noPopularMessage.textContent = "No popular trips to show right now.";
+                    noPopularMessage.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error fetching popular trips:', error);
+                loadingPopularMsg.style.display = 'none';
+                noPopularMessage.textContent = 'Could not load popular trips. Please try again later.';
+                noPopularMessage.style.display = 'block';
+            }
+        }
+
+        function getCountryFromTrip(trip) {
+            if (trip && trip.region && typeof trip.region === 'string') {
+                const regionLower = trip.region.toLowerCase();
+                if (regionLower.includes('vietnam')) return 'vietnam';
+                if (regionLower.includes('singapore')) return 'singapore';
+                if (regionLower.includes('india')) return 'india';
+            }
+            return 'vietnam';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchAndDisplayPopularTrips();
+        });
+    </script>
+</body>
+
+</html>

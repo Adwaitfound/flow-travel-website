@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Personalized Itinerary - Travel.AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark-charcoal: #131A23; 
+            --primary-bright-yellow: #F6EF31; 
+            --text-on-dark: #FFFFFF;
+            --text-on-dark-subtle: #cccccc;
+            --text-dark-on-yellow: #131A23; 
+            --text-primary-content: #2c3e50;
+            --background-light: #FFFFFF;
+            --background-page: #f0f2f5;
+            --border-light: #e9ecef;
+            --border-darker: #4A4A4A;
+            --accent-blue-link: #007bff; 
+            --accent-blue-darker: #0056b3;
+        }
+        body, html { margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; line-height: 1.65; color: var(--text-primary-content); background-color: var(--background-page); }
+        .container-fluid { width: 100%; }
+        .container { width: 95%; max-width: 1300px; margin: auto; padding: 0 15px; } 
+        header.page-top-header { background: var(--primary-dark-charcoal); padding: 15px 0; box-shadow: 0 1px 8px rgba(0,0,0,0.15); border-bottom: 1px solid var(--border-darker); position: sticky; top: 0; z-index: 1001; }
+        header.page-top-header .container-header { width: 95%; max-width: 1300px; margin: auto; padding: 0 15px; display: flex; justify-content: space-between; align-items: center; }
+        header.page-top-header h1.logo { color: var(--text-on-dark); margin: 0; font-size: 1.9em; font-weight: 700; }
+        header.page-top-header nav ul { padding: 0; margin: 0; list-style: none; display: flex; }
+        header.page-top-header nav ul li { margin-left: 30px; }
+        header.page-top-header nav ul li a { text-decoration: none; color: var(--text-on-dark-subtle); font-weight: 500; transition: color 0.3s ease; font-size: 0.95em; }
+        header.page-top-header nav ul li a:hover, header.page-top-header nav ul li a.active { color: var(--primary-bright-yellow); }
+        .main-content-area { padding: 25px 0; }
+        .itinerary-layout { display: flex; flex-wrap: wrap; gap: 25px; } 
+        .itinerary-details-column { flex: 3; min-width: 320px; max-height: calc(100vh - 100px); overflow-y: auto; background-color: var(--background-light); border-radius: 8px; padding: 20px 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .itinerary-details-column::-webkit-scrollbar { width: 8px; }
+        .itinerary-details-column::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .itinerary-details-column::-webkit-scrollbar-thumb { background: var(--accent-blue-link); border-radius: 10px; }
+        .itinerary-details-column::-webkit-scrollbar-thumb:hover { background: var(--accent-blue-darker); }
+        .map-column { flex: 2; min-width: 300px; height: calc(100vh - 100px); max-height: 700px; position: sticky; top: 80px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); overflow: hidden; }
+        #map { height: 100%; width: 100%; border-radius: 8px; }
+        .itinerary-main-title { text-align: left; font-size: 1.8em; color: var(--accent-blue-darker); margin-bottom: 10px; padding-bottom: 10px; border-bottom: 2px solid var(--accent-blue-link); font-weight: 700; }
+        .itinerary-main-title i { margin-right: 10px; color: var(--accent-blue-link); }
+        .itinerary-note { font-size: 0.85em; font-style: italic; color: #5a6268; background-color: #e9ecef; padding: 8px 12px; border-radius: 4px; margin-bottom: 15px; border-left: 3px solid var(--accent-blue-link); }
+        .day-section { background-color: var(--background-light); border-radius: 6px; margin-bottom: 18px; border: 1px solid var(--border-light); }
+        .day-header { font-size: 1.25em; color: var(--accent-blue-darker); margin: 0; padding: 15px 20px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); transition: background-color 0.2s ease; }
+        .day-header:hover { background-color: #f7faff; }
+        .day-header i.fa-calendar-alt { margin-right: 10px; color: var(--accent-blue-link); } 
+        .day-header .toggle-icon { font-size: 0.9em; transition: transform 0.3s ease; }
+        .day-header.active .toggle-icon { transform: rotate(90deg); }
+        .day-content { padding: 15px 20px 20px; display: none; background-color: #fff; }
+        .day-content.expanded { display: block; }
+        .day-content p.day-overview { margin-top: 0; margin-bottom: 15px; line-height: 1.6; color: #454f5b; font-size: 0.95em; }
+        .day-content ul { list-style: none; padding-left: 0; margin-top: 10px; }
+        .day-content ul li { margin-bottom: 12px; padding: 10px 0 10px 35px; position: relative; color: #34495e; font-size: 0.9em; border-bottom: 1px dotted #eef1f5; }
+        .day-content ul li:last-child { border-bottom: none; }
+        .day-content ul li .item-icon { position: absolute; left: 5px; top: 12px; font-size: 1.1em; color: var(--accent-blue-link); width: 20px; text-align: center; }
+        .day-content ul li.travel-time-item { color: #5a6268; font-style: italic; font-size: 0.85em; padding: 8px 0 8px 35px; background-color: #f8f9fa; border-radius: 4px; }
+        .day-content ul li.travel-time-item .item-icon { color: #6c757d; font-size: 1em; top: 10px; }
+        .location-tag { display: block; font-size: 0.8em; color: #777; margin-top: 3px; }
+        .no-itinerary { text-align: center; font-size: 1.3em; color: #6c757d; padding: 30px; }
+        .action-buttons-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; padding: 25px 0 5px; border-top: 1px solid var(--border-light); margin-top: 25px; }
+        .btn-action { padding: 12px 25px; font-size: 0.95em; font-weight: 500; color: var(--text-on-dark); border: none; border-radius: 8px; cursor: pointer; text-decoration: none; transition: background-color 0.3s ease, transform 0.2s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.1); min-width: 180px; text-align: center; }
+        .btn-refine-ai { background-color: #17a2b8; } 
+        .btn-refine-ai:hover { background-color: #138496; transform: translateY(-2px); }
+        .btn-find-stay { background-color: var(--accent-blue-link); } 
+        .btn-find-stay:hover { background-color: var(--accent-blue-darker); transform: translateY(-2px); }
+        .btn-action i { margin-right: 8px; }
+        .refine-section { margin-top: 25px; padding: 20px; background-color: #f0f8ff; border: 1px solid #cce7ff; border-radius: 8px; display: none; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .refine-section h3 { margin-top: 0; margin-bottom: 15px; color: var(--accent-blue-darker); font-size: 1.3em; font-weight: 600; }
+        .refine-section textarea { width: calc(100% - 22px); min-height: 70px; padding: 10px; border-radius: 6px; border: 1px solid var(--border-light); font-family: 'Montserrat', sans-serif; font-size: 0.95em; margin-bottom: 15px; }
+        .refine-section .btn-submit-refinement { background-color: #28a745; color: var(--text-on-dark); padding: 10px 20px; font-size: 1em; font-weight: 500; border-radius: 6px; border: none; cursor: pointer; }
+        #refinementLoadingIndicator { display: none; margin-top: 10px; color: var(--accent-blue-link);}
+        footer.page-bottom-footer { background: var(--primary-dark-charcoal); color: var(--text-on-dark-subtle); }
+        footer.page-bottom-footer a { color: var(--primary-bright-yellow); }
+        footer.page-bottom-footer a:hover { color: var(--text-on-dark); }
+
+        .loading {
+          text-align: center;
+          padding: 20px;
+          color: #666;
+          font-size: 1.2em;
+        }
+
+        .error-message {
+          text-align: center;
+          padding: 20px;
+          background: #f8f8f8;
+          border-radius: 8px;
+          margin: 20px 0;
+          border: 1px solid #ddd;
+        }
+
+        .retry-btn {
+          background: #007bff;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 4px;
+          cursor: pointer;
+          margin-top: 10px;
+        }
+
+        .retry-btn:hover {
+          background: #0056b3;
+        }
+
+        .activity-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 5px;
+          margin-top: 8px;
+        }
+
+        .tag {
+          background: #e9ecef;
+          color: #495057;
+          padding: 2px 8px;
+          border-radius: 12px;
+          font-size: 11px;
+        }
+
+        #auto-refresh-status {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_Maps_API_KEY&callback=initMap" defer></script>
+    <script src="/js/auto-refresh.js"></script>
+</head>
+<body>
+    <header class="page-top-header">
+        <div class="container-header">
+            <h1 class="logo">Travel.AI</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#popular-destinations">Destinations</a></li>
+                    <li><a href="#">About Us</a></li> 
+                    <li><a href="#">Contact</a></li>   
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-content-area container">
+        <div class="itinerary-layout">
+            <div class="itinerary-details-column">
+                <div class="itinerary-main-title" id="pageTitle">
+                    <i class="fas fa-route"></i> Your Personalized Journey
+                </div>
+                <div id="itineraryNoteDisplay" class="itinerary-note" style="display:none;"></div>
+                <div id="itineraryDisplay">
+                    <p class="no-itinerary" id="noItineraryMessage" style="display:block;">Loading itinerary...</p> 
+                </div>
+            </div>
+            <div class="map-column">
+                <div id="map"></div>
+            </div>
+        </div>
+
+        <div class="action-buttons-container">
+            <button type="button" id="toggleRefineBtn" class="btn-action btn-refine-ai"><i class="fas fa-magic"></i> Refine with AI</button>
+            <button type="button" id="findStayBtn" class="btn-action btn-find-stay"><i class="fas fa-hotel"></i> Suggest Stays</button>
+        </div>
+
+        <div class="refine-section" id="refineItinerarySection">
+            <h3><i class="fas fa-edit"></i> How would you like to refine this itinerary?</h3>
+            <textarea id="refinementRequest" placeholder="e.g., 'Add more beach time on Day 3', 'Suggest vegetarian restaurants', 'Make the pace more relaxed'"></textarea>
+            <button type="button" id="submitRefinementBtn" class="btn-action btn-submit-refinement">Submit Refinement</button>
+            <div id="refinementLoadingIndicator"><i class="fas fa-spinner fa-spin"></i> Refining...</div>
+        </div>
+        
+        <div id="hotelSuggestionsDisplay" style="margin-top: 20px; padding:15px; background-color:#fff; border-radius:8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display:none;">
+            <h3 style="color: #0056b3; font-size:1.3em; margin-top:0;">Hotel Suggestions</h3>
+            <div id="hotelList"></div> 
+            <p id="hotelMessage" style="text-align:center; color:#555;"></p>
+        </div>
+    </div>
+
+    <footer class="page-bottom-footer container-fluid" style="background: var(--primary-dark-charcoal); color: var(--text-on-dark-subtle); text-align: center; padding: 40px 0; margin-top: 30px;">
+        <div class="container">
+            <p>&copy; <span id="year"></span> Travel.AI - All Rights Reserved.</p>
+            <p><a href="#" style="color: var(--primary-bright-yellow);">Privacy Policy</a> | <a href="#" style="color: var(--primary-bright-yellow);">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+let map;
+let geocoder;
+let globalBounds; 
+let dayMarkers = {}; 
+let currentItineraryId = null;
+let autoRefresh = null;
+let currentTripData = null; // Add this
+
+// DOM Elements
+let toggleRefineBtn, refineSection, refinementRequestTextarea, submitRefinementBtn, refinementLoadingIndicator;
+let findStayBtn, hotelSuggestionsDisplay, hotelList, hotelMessage;
+let displayDiv, pageTitleElement, noItineraryMessage, itineraryNoteDisplay;
+
+function initMap() {
+    console.log("🗺️ Google Maps API loaded. Initializing map.");
+    geocoder = new google.maps.Geocoder();
+    globalBounds = new google.maps.LatLngBounds(); 
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 16.166, lng: 107.833 }, 
+        zoom: 5, 
+        mapTypeControl: true, 
+        streetViewControl: true, 
+        zoomControl: true, 
+        fullscreenControl: true,
+    });
+    
+    initializePageElements(); 
+    
+    // Check for itinerary ID and load live data
+    const urlParams = new URLSearchParams(window.location.search);
+    const itineraryId = urlParams.get('id');
+    
+    if (itineraryId) {
+        console.log('🔍 Found itinerary ID:', itineraryId);
+        loadItineraryWithLiveData(itineraryId);
+    } else {
+        console.log('❌ No itinerary ID found in URL');
+        showErrorMessage('No itinerary ID provided. Please access this page through a valid itinerary link.');
+    }
+}
+
+function initializePageElements() {
+    displayDiv = document.getElementById('itineraryDisplay');
+    pageTitleElement = document.getElementById('pageTitle'); 
+    noItineraryMessage = document.getElementById('noItineraryMessage');
+    itineraryNoteDisplay = document.getElementById('itineraryNoteDisplay');
+    toggleRefineBtn = document.getElementById('toggleRefineBtn');
+    refineSection = document.getElementById('refineItinerarySection');
+    refinementRequestTextarea = document.getElementById('refinementRequest');
+    submitRefinementBtn = document.getElementById('submitRefinementBtn');
+    refinementLoadingIndicator = document.getElementById('refinementLoadingIndicator');
+    findStayBtn = document.getElementById('findStayBtn');
+    hotelSuggestionsDisplay = document.getElementById('hotelSuggestionsDisplay');
+    hotelList = document.getElementById('hotelList'); 
+    hotelMessage = document.getElementById('hotelMessage');
+
+    if (toggleRefineBtn && refineSection) {
+        toggleRefineBtn.addEventListener('click', () => {
+            refineSection.style.display = refineSection.style.display === 'none' || refineSection.style.display === '' ? 'block' : 'none';
+        });
+    }
+
+    if (submitRefinementBtn && refinementRequestTextarea && refineSection && refinementLoadingIndicator) {
+        submitRefinementBtn.addEventListener('click', handleRefinementSubmission);
+    }
+
+    if (findStayBtn) {
+        findStayBtn.addEventListener('click', () => {
+            alert("Find Stay feature: This is where we'll use Google Places API to show hotels!");
+            if(hotelSuggestionsDisplay) hotelSuggestionsDisplay.style.display = 'block'; 
+            if(hotelList) hotelList.innerHTML = ''; 
+            if(hotelMessage) {
+                hotelMessage.textContent = 'Hotel suggestion feature under development...';
+                hotelMessage.style.display = 'block';
+            }
+        });
+    }
+}
+
+// Debug function to check what data we're getting
+window.debugImageIssues = function() {
+    console.log('🔍 Debugging image issues...');
+    console.log('Current trip data:', currentTripData);
+    console.log('Current itinerary ID:', currentItineraryId);
+    
+    // Test the debug endpoint
+    fetch('/api/debug-sheet-data')
+        .then(response => response.json())
+        .then(data => {
+            console.log('📋 Debug data from server:', data);
+            console.log('📸 Looking for image URLs in daily plans...');
+            
+            // Check all daily plan entries for images
+            data.sampleDailyPlan.forEach((plan, index) => {
+                console.log(`Entry ${index + 1}:`, {
+                    day_number: plan.day_number,
+                    itinerary_id: plan.itinerary_id,
+                    day_title: plan.day_title,
+                    daywise_image_url: plan.daywise_image_url,
+                    all_fields: Object.keys(plan)
+                });
+            });
+            
+            // Check if any entries have the image field
+            const entriesWithImages = data.sampleDailyPlan.filter(plan => 
+                plan.daywise_image_url && plan.daywise_image_url.trim() !== ''
+            );
+            console.log(`📸 Entries with images: ${entriesWithImages.length}/${data.sampleDailyPlan.length}`);
+            
+            // Check if our current itinerary has entries
+            const currentItineraryEntries = data.sampleDailyPlan.filter(plan => 
+                plan.itinerary_id === currentItineraryId
+            );
+            console.log(`📋 Entries for current itinerary: ${currentItineraryEntries.length}`);
+            
+            if (currentItineraryEntries.length > 0) {
+                console.log('📋 Current itinerary entries:', currentItineraryEntries);
+            }
+            
+        })
+        .catch(error => console.error('Debug fetch failed:', error));
+};
+
+// MAIN FUNCTION: Load itinerary with live Google Sheets data
+async function loadItineraryWithLiveData(itineraryId, forceRefresh = false) {
+    try {
+        console.log('📊 Loading itinerary with live data:', itineraryId, forceRefresh ? '(force refresh)' : '');
+        currentItineraryId = itineraryId;
+        
+        // Show loading state
+        if (noItineraryMessage) {
+            noItineraryMessage.innerHTML = '<div class="loading">📡 Loading fresh itinerary data from Google Sheets...</div>';
+            noItineraryMessage.style.display = 'block';
+        }
+        
+        // Clear existing markers
+        clearAllMarkers();
+        
+        // Fetch live daily plans with force refresh option
+        const apiUrl = `/api/daily-plans?itinerary_id=${itineraryId}${forceRefresh ? '&refresh=true' : ''}`;
+        console.log('🔄 Fetching from:', apiUrl);
+        const response = await fetch(apiUrl);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        console.log('📋 Received data structure:', {
+            daysCount: data.days?.length || 0,
+            lastUpdated: data.lastUpdated,
+            refreshed: data.refreshed,
+            firstDay: data.days?.[0]
+        });
+        
+        if (data.days && data.days.length > 0) {
+            displayLiveItineraryData(data.days);
+            startAutoRefresh();
+        } else {
+            throw new Error('No daily plans found for this itinerary ID');
+        }
+        
+    } catch (error) {
+        console.error('❌ Error loading itinerary:', error);
+        showErrorMessage(`Could not load itinerary data: ${error.message}`);
+    }
+}
+
+// Add fallback image function
+function getDestinationImages(destination, dayNumber) {
+    // Fallback images for different destinations
+    const fallbackImages = {
+        'vietnam': [
+            'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=800&h=600&fit=crop',
+            'https://images.unsplash.com/photo-1540179769-e4ca7b47b5e0?w=800&h=600&fit=crop',
+            'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=800&h=600&fit=crop'
+        ],
+        'default': [
+            'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=600&fit=crop',
+            'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop',
+            'https://images.unsplash.com/photo-1454391304352-2bf4678b1a7a?w=800&h=600&fit=crop'
+        ]
+    };
+    
+    const destKey = destination.toLowerCase().includes('vietnam') ? 'vietnam' : 'default';
+    const images = fallbackImages[destKey];
+    const imageIndex = (dayNumber - 1) % images.length;
+    
+    return images[imageIndex];
+}
+
+// Function to validate and get image URL
+function validateAndGetImageUrl(day) {
+    let imageUrl = '';
+    
+    // Check all possible image field variations
+    const possibleFields = [
+        'daywise Image_Url',
+        'daywise_image_url', 
+        'daywise_Image_Url',
+        'Daywise Image_Url'
+    ];
+    
+    for (const field of possibleFields) {
+        if (day[field] && day[field].trim()) {
+            imageUrl = day[field].trim();
+            console.log(`📸 Found image in field '${field}' for Day ${day.day_number}:`, imageUrl);
+            break;
+        }
+    }
+    
+    // Validate URL format
+    if (imageUrl) {
+        try {
+            new URL(imageUrl);
+            return imageUrl;
+        } catch (e) {
+            console.warn(`❌ Invalid URL format for Day ${day.day_number}:`, imageUrl);
+        }
+    }
+    
+    // Return fallback image
+    const destination = day.day_main_location || 'destination';
+    return getDestinationImages(destination, parseInt(day.day_number) || 1);
+}
+
+// Enhanced displayLiveItineraryData with better image handling
+function displayLiveItineraryData(days) {
+    if (!displayDiv || !pageTitleElement || !noItineraryMessage) {
+        console.error('❌ Core display elements not found');
+        return;
+    }
+    
+    console.log('🎨 Displaying live itinerary data for', days.length, 'days');
+    
+    // Hide loading message
+    noItineraryMessage.style.display = 'none';
+    
+    // Update page title
+    pageTitleElement.innerHTML = `<i class="fas fa-route"></i> Your Personalized Journey (${days.length} Days)`;
+    
+    // Clear existing content
+    displayDiv.innerHTML = '';
+    
+    // Display each day
+    days.forEach((day, index) => {
+        console.log(`🗓️ Processing Day ${day.day_number}:`, {
+            title: day.day_title,
+            location: day.day_main_location,
+            daywise_image_url: day.daywise_image_url,
+            'daywise Image_Url': day['daywise Image_Url'],
+            imageExists: !!(day.daywise_image_url || day['daywise Image_Url']),
+            activitiesCount: day.activities ? day.activities.length : 0
+        });
+
+        const daySection = document.createElement('div');
+        daySection.className = 'day-section';
+        
+        const dayHeaderElement = document.createElement('div');
+        dayHeaderElement.className = 'day-header';
+        dayHeaderElement.innerHTML = `
+            <span>
+                <i class="fas fa-calendar-alt"></i> 
+                Day ${day.day_number}: ${day.day_title || `Day ${day.day_number}`}
+                ${day.day_main_location ? `<span class="location-tag">📍 ${day.day_main_location}</span>` : ''}
+            </span> 
+            <i class="fas fa-chevron-right toggle-icon"></i>
+        `;
+        
+        const dayContentDiv = document.createElement('div');
+        dayContentDiv.className = 'day-content';
+        
+        // FIXED: Enhanced image handling to check all possible field names
+        let imageUrl = '';
+        
+        // Check all possible field variations
+        if (day['daywise Image_Url'] && day['daywise Image_Url'].trim()) {
+            imageUrl = day['daywise Image_Url'].trim();
+            console.log(`📸 Found image in 'daywise Image_Url' for Day ${day.day_number}:`, imageUrl);
+        } else if (day.daywise_image_url && day.daywise_image_url.trim()) {
+            imageUrl = day.daywise_image_url.trim();
+            console.log(`📸 Found image in 'daywise_image_url' for Day ${day.day_number}:`, imageUrl);
+        } else if (day['daywise_image_url'] && day['daywise_image_url'].trim()) {
+            imageUrl = day['daywise_image_url'].trim();
+            console.log(`📸 Found image in 'daywise_image_url' (bracket notation) for Day ${day.day_number}:`, imageUrl);
+        }
+        
+        if (imageUrl && imageUrl !== '') {
+            console.log(`📸 Adding image for Day ${day.day_number}:`, imageUrl);
+            
+            const imgContainer = document.createElement('div');
+            imgContainer.style.cssText = 'margin-bottom: 15px; position: relative;';
+            
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.alt = `Day ${day.day_number} - ${day.day_title || 'Activities'}`;
+            img.style.cssText = 'width: 100%; height: 200px; object-fit: cover; border-radius: 6px; display: block;';
+            
+            // Add loading indicator
+            const loadingDiv = document.createElement('div');
+            loadingDiv.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #666;';
+            loadingDiv.innerHTML = '📸 Loading image...';
+            imgContainer.appendChild(loadingDiv);
+            
+            // Add loading and error handlers
+            img.onload = function() {
+                console.log(`✅ Image loaded successfully for Day ${day.day_number}`);
+                loadingDiv.remove();
+            };
+            
+            img.onerror = function() {
+                console.warn(`❌ Image failed to load for Day ${day.day_number}:`, imageUrl);
+                loadingDiv.innerHTML = '❌ Image failed to load';
+                
+                // Try a fallback image after 2 seconds
+                setTimeout(() => {
+                    const destination = day.day_main_location || currentTripData?.region || 'vietnam';
+                    const fallbackUrl = getDestinationImages(destination, parseInt(day.day_number) || 1);
+                    console.log(`🔄 Trying fallback image:`, fallbackUrl);
+                    
+                    this.src = fallbackUrl;
+                    this.alt = `Day ${day.day_number} - Fallback Image`;
+                    loadingDiv.innerHTML = '🖼️ Using fallback image';
+                }, 2000);
+            };
+            
+            imgContainer.appendChild(img);
+            dayContentDiv.appendChild(imgContainer);
+        } else {
+            console.log(`⚠️ No image URL found for Day ${day.day_number}`);
+            console.log('Available day fields:', Object.keys(day));
+            console.log('Image field values:', {
+                'daywise Image_Url': day['daywise Image_Url'],
+                'daywise_image_url': day.daywise_image_url,
+                'daywise_image_url_bracket': day['daywise_image_url']
+            });
+            
+            // Add placeholder with debug info
+            const placeholderDiv = document.createElement('div');
+            placeholderDiv.style.cssText = `
+                margin-bottom: 15px; 
+                height: 200px; 
+                background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); 
+                border-radius: 6px; 
+                display: flex; 
+                align-items: center; 
+                justify-content: center; 
+                color: #666;
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            `;
+            placeholderDiv.innerHTML = `
+                <i class="fas fa-image" style="font-size: 48px; margin-bottom: 10px; opacity: 0.5;"></i>
+                <div>Day ${day.day_number} Image</div>
+                <small style="margin-top: 5px; font-size: 12px;">No image URL provided in Google Sheets</small>
+            `;
+            dayContentDiv.appendChild(placeholderDiv);
+        }
+        
+        // Add day overview if main location exists
+        if (day.day_main_location) {
+            const overviewP = document.createElement('p');
+            overviewP.className = 'day-overview';
+            overviewP.innerHTML = `<strong>📍 Main Location:</strong> ${day.day_main_location}`;
+            dayContentDiv.appendChild(overviewP);
+            
+            // Add marker for main location
+            addMarkerToMap(
+                day.day_main_location, 
+                `Day ${day.day_number} - ${day.day_main_location}`, 
+                parseInt(day.day_number)
+            );
+        }
+        
+        // Add activities
+        if (day.activities && day.activities.length > 0) {
+            const activitiesList = document.createElement('ul');
+            
+            // Sort activities by sequence
+            day.activities.sort((a, b) => 
+                parseInt(a.activity_sequence || 0) - parseInt(b.activity_sequence || 0)
+            );
+            
+            day.activities.forEach(activity => {
+                const listItem = document.createElement('li');
+                
+                // Determine icon based on activity content
+                let itemIconClass = getActivityIcon(activity.activity_description || '');
+                
+                let itemHTML = `<span class="item-icon"><i class="${itemIconClass}"></i></span>`;
+                
+                // Add time if available
+                if (activity.activity_time_of_day) {
+                    itemHTML += `<strong>${activity.activity_time_of_day}:</strong> `;
+                }
+                
+                // Add location name
+                if (activity.activity_location_name) {
+                    itemHTML += `<strong>${activity.activity_location_name}</strong>`;
+                    
+                    // Add marker for this location (if different from main location)
+                    if (activity.activity_location_name !== day.day_main_location) {
+                        addMarkerToMap(
+                            activity.activity_location_name,
+                            `${activity.activity_location_name} (Day ${day.day_number})`,
+                            parseInt(day.day_number)
+                        );
+                    }
+                }
+                
+                // Add description
+                if (activity.activity_description) {
+                    itemHTML += `<br><span style="color: #666;">${activity.activity_description}</span>`;
+                }
+                
+                // Add tags
+                if (activity.activity_tags && activity.activity_tags.length > 0) {
+                    itemHTML += `<div class="activity-tags">`;
+                    activity.activity_tags.forEach(tag => {
+                        if (tag.trim()) {
+                            itemHTML += `<span class="tag">${tag.trim()}</span>`;
+                        }
+                    });
+                    itemHTML += `</div>`;
+                }
+                
+                listItem.innerHTML = itemHTML;
+                activitiesList.appendChild(listItem);
+            });
+            
+            dayContentDiv.appendChild(activitiesList);
+        } else {
+            const noActivities = document.createElement('p');
+            noActivities.style.cssText = 'text-align: center; color: #666; font-style: italic;';
+            noActivities.textContent = 'No activities planned for this day.';
+            dayContentDiv.appendChild(noActivities);
+        }
+        
+        daySection.appendChild(dayHeaderElement);
+        daySection.appendChild(dayContentDiv);
+        displayDiv.appendChild(daySection);
+        
+        // Add click handler for day header
+        dayHeaderElement.dataset.dayNumber = day.day_number;
+        dayHeaderElement.addEventListener('click', function() {
+            const isActive = this.classList.toggle('active');
+            const content = this.nextElementSibling;
+            content.classList.toggle('expanded');
+            
+            if (isActive) {
+                content.style.display = "block";
+                const dayNum = parseInt(this.dataset.dayNumber);
+                focusMapOnDay(dayNum);
+            } else {
+                content.style.display = "none";
+                resetMapToGlobalView();
+            }
+        });
+        
+        // Auto-expand first day
+        if (index === 0) {
+            dayHeaderElement.classList.add('active');
+            dayContentDiv.classList.add('expanded');
+            dayContentDiv.style.display = 'block';
+        }
+    });
+    
+    // Fit map to show all markers
+    setTimeout(() => {
+        if (Object.keys(dayMarkers).length > 0 && !globalBounds.isEmpty()) {
+            map.fitBounds(globalBounds);
+            setTimeout(() => {
+                const totalMarkers = Object.values(dayMarkers).reduce((acc, val) => acc + val.length, 0);
+                if (totalMarkers === 1 && map.getZoom() > 10) {
+                    map.setZoom(10);
+                } else if (totalMarkers > 1 && map.getZoom() > 8) {
+                    map.setZoom(8);
+                }
+            }, 1000);
+        }
+    }, 500);
+    
+    console.log(`✅ Successfully displayed ${days.length} days with live data`);
+}
+
+// Helper function to get appropriate icon for activities
+function getActivityIcon(activityText) {
+    const text = activityText.toLowerCase();
+    
+    if (text.includes("food") || text.includes("lunch") || text.includes("dinner") || text.includes("breakfast") || text.includes("restaurant") || text.includes("meal")) {
+        return "fas fa-utensils";
+    } else if (text.includes("hotel") || text.includes("stay") || text.includes("accommodation") || text.includes("check")) {
+        return "fas fa-bed";
+    } else if (text.includes("museum") || text.includes("temple") || text.includes("pagoda") || text.includes("palace") || text.includes("historical")) {
+        return "fas fa-landmark";
+    } else if (text.includes("trek") || text.includes("hike") || text.includes("activity") || text.includes("adventure") || text.includes("climb")) {
+        return "fas fa-hiking";
+    } else if (text.includes("photo") || text.includes("viewpoint") || text.includes("beach") || text.includes("sunset")) {
+        return "fas fa-camera-retro";
+    } else if (text.includes("shop") || text.includes("market") || text.includes("buy")) {
+        return "fas fa-shopping-bag";
+    } else if (text.includes("transport") || text.includes("travel") || text.includes("drive") || text.includes("flight")) {
+        return "fas fa-route";
+    } else {
+        return "fas fa-map-pin";
+    }
+}
+
+// Map functions
+function clearAllMarkers() {
+    Object.keys(dayMarkers).forEach(key => { 
+        dayMarkers[key].forEach(marker => marker.setMap(null)); 
+    });
+    dayMarkers = {};
+    globalBounds = new google.maps.LatLngBounds();
+}
+
+function addMarkerToMap(address, title, dayNumber) {
+    if (!geocoder || !map) { 
+        console.error("❌ Geocoder or Map not initialized for addMarkerToMap."); 
+        return; 
+    }
+    
+    geocoder.geocode({ 'address': address }, (results, status) => {
+        if (status === 'OK' && results[0]) {
+            const location = results[0].geometry.location;
+            const marker = new google.maps.Marker({ 
+                map: map, 
+                position: location, 
+                label: { 
+                    text: dayNumber.toString(), 
+                    color: "white", 
+                    fontWeight: "bold", 
+                    fontSize: "13px" 
+                },
+                title: title
+            });
+            
+            if (!dayMarkers[dayNumber]) { 
+                dayMarkers[dayNumber] = []; 
+            }
+            dayMarkers[dayNumber].push(marker);
+            globalBounds.extend(location); 
+            
+            console.log(`📍 Added marker: ${title}`);
+        } else { 
+            console.warn(`⚠️ Geocode failed for "${address}": ${status}`); 
+        }
+    });
+}
+
+function focusMapOnDay(dayNumber) { 
+    if (!map) return;
+    
+    if (dayMarkers[dayNumber] && dayMarkers[dayNumber].length > 0) {
+        const daySpecificBounds = new google.maps.LatLngBounds();
+        dayMarkers[dayNumber].forEach(marker => daySpecificBounds.extend(marker.getPosition()));
+        map.fitBounds(daySpecificBounds);
+        
+        setTimeout(() => {
+            if (dayMarkers[dayNumber].length === 1 && map.getZoom() > 13) { 
+                map.setZoom(13); 
+            } else if (map.getZoom() > 14) { 
+                map.setZoom(14); 
+            }
+        }, 500);
+    } else { 
+        resetMapToGlobalView(); 
+    }
+}
+
+function resetMapToGlobalView() {
+    if (map && globalBounds && !globalBounds.isEmpty()) { 
+        map.fitBounds(globalBounds);
+        setTimeout(() => {
+            let totalMarkers = Object.values(dayMarkers).reduce((acc, val) => acc + val.length, 0);
+            if (totalMarkers === 1 && map.getZoom() > 10) {
+                map.setZoom(10);
+            } else if (totalMarkers > 1 && map.getZoom() > 8) {
+                map.setZoom(8);
+            }
+        }, 500);
+    } else if (map) { 
+        map.setCenter({ lat: 16.166, lng: 107.833 }); 
+        map.setZoom(5); 
+    }
+}
+
+// Update the auto-refresh functionality
+function startAutoRefresh() {
+    if (autoRefresh) {
+        autoRefresh.stop();
+    }
+    
+    autoRefresh = new AutoRefresh({
+        interval: 60000, // 1 minute for more frequent updates
+        onUpdate: async (freshData, forceRefresh) => {
+            console.log('🔄 Auto-refresh triggered, reloading itinerary...');
+            
+            // First refresh the server data cache
+            try {
+                const refreshResponse = await fetch('/api/refresh-data');
+                if (refreshResponse.ok) {
+                    console.log('✅ Server cache refreshed');
+                }
+            } catch (error) {
+                console.warn('⚠️ Could not refresh server cache:', error);
+            }
+            
+            // Then reload the itinerary with fresh data
+            loadItineraryWithLiveData(currentItineraryId, true);
+        },
+        onError: (error) => {
+            console.error('❌ Auto-refresh error:', error);
+        }
+    });
+    
+    autoRefresh.start();
+    console.log('✅ Auto-refresh started for show_itinerary');
+}
+
+// Error handling
+function showErrorMessage(message) {
+    if (noItineraryMessage) {
+        noItineraryMessage.innerHTML = `
+            <div class="error-message">
+                <h3>⚠️ Unable to Load Itinerary</h3>
+                <p>${message}</p>
+                <button onclick="location.reload()" class="retry-btn">🔄 Retry</button>
+                <br><br>
+                <small>If the problem persists, make sure your Google Sheets are published to web and accessible.</small>
+            </div>
+        `;
+        noItineraryMessage.style.display = 'block';
+    }
+}
+
+// Refinement functionality (placeholder)
+function handleRefinementSubmission() {
+    console.log('🎯 Refinement feature not yet implemented');
+    alert('AI refinement feature coming soon!');
+}
+
+// Initialize everything when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('📱 Page loaded, waiting for Google Maps...');
+});
+
+// Clean up on page unload
+window.addEventListener('beforeunload', function() {
+    if (autoRefresh) {
+        autoRefresh.stop();
+    }
+});
+    </script>
+</body>
+</html>

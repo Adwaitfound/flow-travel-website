@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Travel Itineraries - Flow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        :root {
+            --primary-dark-charcoal: #131A23; 
+            --primary-bright-yellow: #F6EF31; 
+            --text-on-dark: #FFFFFF;
+            --text-primary-content: #2c3e50; 
+            --background-light: #FFFFFF;
+            --background-page: #f8f9fa;
+            --border-light: #e0e0e0;
+            --border-form-input: #ced4da;
+            --accent-greenish-yellow: #95cb00; 
+            --accent-greenish-yellow-darker: #7da800;
+            --text-dark: #333333;
+            --text-medium: #555555;
+        }
+
+        body, html {
+            margin: 0; padding: 0; font-family: 'Montserrat', sans-serif;
+            line-height: 1.6; color: var(--text-primary-content); background-color: var(--background-page);
+        }
+        .page-container-all { 
+            max-width: 1300px; 
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header.page-top-header {
+            background: var(--primary-dark-charcoal); 
+            padding: 15px 0; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            width: 100%; 
+        }
+        header.page-top-header .container-header {
+            width: 90%; max-width: 1260px; margin: auto; padding: 0 20px; 
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        header.page-top-header h1.logo { color: var(--text-on-dark); margin: 0; font-size: 1.8em; font-weight: 700; cursor: pointer; }
+        header.page-top-header nav ul { padding: 0; margin: 0; list-style: none; display: flex; }
+        header.page-top-header nav ul li { margin-left: 25px; }
+        header.page-top-header nav ul li a { text-decoration: none; color: var(--text-on-dark-subtle); font-weight: 500; transition: color 0.3s ease; font-size: 0.9em; }
+        header.page-top-header nav ul li a:hover, header.page-top-header nav ul li a.active { color: var(--primary-bright-yellow); }
+
+        .filters-top-bar {
+            background-color: var(--background-light);
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            margin-top: 20px; /* Added margin for spacing from header */
+            display: flex;
+            flex-wrap: wrap; 
+            gap: 15px; 
+            align-items: flex-end; 
+        }
+        .filter-group {
+            margin-bottom: 0; 
+            flex: 1 1 auto; 
+            min-width: 150px; 
+        }
+        .filter-group.interests-group { 
+             min-width: 250px; 
+        }
+        .filter-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.8em;
+            color: var(--text-medium);
+            text-transform: uppercase;
+        }
+        .filter-group select, 
+        .filter-group input[type="number"], 
+        .filter-group input[type="text"] {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--border-form-input);
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 0.9em;
+            height: 38px; 
+        }
+        .filter-group .checkbox-group-horizontal { 
+            display: flex;
+            flex-wrap: nowrap; 
+            gap: 15px; 
+            align-items: center;
+             height: 38px; 
+        }
+        .filter-group .checkbox-group-horizontal label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0; 
+            font-size: 0.85em;
+            font-weight: 500;
+            color: var(--text-medium);
+            cursor: pointer;
+            text-transform: none; 
+        }
+        .filter-group .checkbox-group-horizontal input[type="checkbox"] {
+            margin-right: 5px;
+            accent-color: var(--accent-greenish-yellow);
+        }
+        .price-range-inputs, .duration-range-inputs { display: flex; gap: 10px; }
+        .price-range-inputs input, .duration-range-inputs input { flex: 1; }
+
+        #applyFiltersBtn {
+            background-color: var(--accent-greenish-yellow); 
+            color: white; 
+            padding: 0 20px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-weight: 600;
+            height: 38px; 
+            flex-shrink: 0; 
+            align-self: flex-end; 
+        }
+
+        .itineraries-main-content h2 {
+            text-align: center; 
+            margin-top:0; 
+            margin-bottom:25px; 
+            color:var(--primary-dark-charcoal);
+        }
+        .itineraries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .trip-card { background-color: var(--background-light); border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .trip-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+        .trip-card-image-container { position: relative; }
+        .trip-card-image-container img { width: 100%; height: 180px; object-fit: cover; display: block; }
+        .trip-card-quick-view { position: absolute; top: 10px; left: 10px; background-color: rgba(0,0,0,0.6); color: white; padding: 5px 10px; border-radius: 5px; font-size: 0.75em; cursor: pointer;}
+        .trip-card-content
+        .trip-card-rating { font-size: 0.8em; color: #f39c12; margin-bottom: 5px; }
+        .trip-card-rating .fa-star { margin-right: 2px; }
+        .trip-card h4 { font-size: 1.15em; color: var(--primary-dark-charcoal); margin: 0 0 8px 0; font-weight: 600; line-height: 1.3; }
+        .trip-card-details { font-size: 0.8em; color: #777; margin-bottom: 10px; }
+        .trip-card-details span { margin-right: 10px; }
+        .trip-card-description { font-size: 0.85em; color: #555; margin-bottom: 15px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .trip-card-footer { margin-top: auto; border-top: 1px solid var(--border-light); padding-top: 15px; }
+        .trip-card-price { font-size: 0.8em; color: #555; display: block; margin-bottom: 10px; }
+        .trip-card-price strong { font-size: 1.2em; color: var(--text-primary-content); }
+        .trip-card .btn-view-trip { display: block; width: 100%; text-align: center; background-color: var(--accent-greenish-yellow); color: var(--text-on-dark); padding: 10px; font-weight: 600; text-decoration: none; border-radius: 6px; transition: background-color 0.3s; font-size: 0.9em; }
+        .trip-card .btn-view-trip:hover { background-color: var(--accent-greenish-yellow-darker); }
+
+        #loadingMessageAll, #noResultsMessage { text-align: center; padding: 30px; font-size: 1.1em; color: var(--text-medium); }
+
+        footer.page-bottom-footer { 
+            background: var(--primary-dark-charcoal); color: var(--text-on-dark-subtle);
+            text-align: center; padding: 30px 0; margin-top: 50px; width: 100%;
+        }
+        footer.page-bottom-footer .container { width: 90%; max-width: 1360px; margin: auto; padding: 15px 20px;}
+        footer.page-bottom-footer a { color: var(--primary-bright-yellow); text-decoration: none; }
+        footer.page-bottom-footer a:hover { color: var(--text-on-dark); text-decoration: underline;}
+    </style>
+</head>
+<body>
+    <header class="page-top-header">
+        <div class="container-header">
+            <h1 class="logo" onclick="window.location.href='intro.html'">Flow</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#travel-destinations">Destinations</a></li>
+                    <li><a href="index.html#popular-trips" class="active">Popular Trips</a></li>
+                    <li><a href="index.html#contact-footer">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-container-all">
+        <div class="filters-top-bar" data-aos="fade-down">
+            <div class="filter-group">
+                <label for="filterDestination">Destination</label>
+                <select id="filterDestination">
+                    <option value="all">All Destinations</option>
+                    <option value="vietnam">Vietnam</option>
+                    <option value="singapore">Singapore</option>
+                    <option value="india">India</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Price (USD pp)</label>
+                <div class="price-range-inputs">
+                    <input type="number" id="filterMinPrice" placeholder="Min" min="0">
+                    <input type="number" id="filterMaxPrice" placeholder="Max" min="0">
+                </div>
+            </div>
+            <div class="filter-group">
+                <label>Duration (Days)</label>
+                 <div class="duration-range-inputs">
+                    <input type="number" id="filterMinDuration" placeholder="Min" min="1">
+                    <input type="number" id="filterMaxDuration" placeholder="Max" min="1">
+                </div>
+            </div>
+            <div class="filter-group interests-group">
+                <label>Interests</label>
+                <div class="checkbox-group-horizontal" id="filterInterests">
+                    <label><input type="checkbox" value="beaches" /> Beaches</label>
+                    <label><input type="checkbox" value="mountains" /> Mountains</label>
+                    <label><input type="checkbox" value="culture" /> Culture</label>
+                </div>
+            </div>
+            <div class="filter-group">
+                <label>Trip Dates:</label>
+                <input type="date" id="tripStartDate">
+                <input type="date" id="tripEndDate">
+            </div>
+            <button id="applyFiltersBtn">Apply</button>
+        </div>
+
+        <main class="itineraries-main-content">
+            <h2 id="mainContentTitle" data-aos="fade-up">Explore Our Itineraries</h2>
+            <div id="loadingMessageAll" style="display:block;"><i class="fas fa-spinner fa-spin"></i> Loading itineraries...</div>
+            <div id="noResultsMessage" style="display:none;">No itineraries match your current filters. Try adjusting them!</div>
+            <div class="itineraries-grid" id="allItinerariesGrid">
+                <!-- Itinerary cards will be injected here -->
+            </div>
+        </main>
+    </div>
+
+    <footer class="page-bottom-footer">
+        <div class="container">
+            <p>© <span id="year"></span> Flow - All Rights Reserved.</p>
+            <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script>
+AOS.init({
+    duration: 600,
+    once: true,
+    offset: 20,
+});
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT4Qmqv_d7e_z_ubrE3cYudVRXpGmT1xGVYH1gu_J7F6OtHDUef5IGWEhG5L44aUpk7yK8jP9DiC-NQ/pub?gid=0&single=true&output=csv'; // <-- Replace with your published CSV URL
+
+const itinerariesGrid = document.getElementById('allItinerariesGrid');
+const loadingMsgAll = document.getElementById('loadingMessageAll');
+const noResultsMsg = document.getElementById('noResultsMessage');
+const filterDestinationSelect = document.getElementById('filterDestination');
+let allFetchedItineraries = [];
+
+function parseTags(str) {
+    return (str || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+}
+
+function fetchItinerariesForDisplay() {
+    loadingMsgAll.style.display = 'block';
+    itinerariesGrid.innerHTML = '';
+    noResultsMsg.style.display = 'none';
+    allFetchedItineraries = [];
+
+    Papa.parse(GOOGLE_SHEET_CSV_URL, {
+        download: true,
+        header: true,
+        complete: function(results) {
+            allFetchedItineraries = results.data.filter(row =>
+                row['id:'] && row['title: '] && row['primary_interest_category:']
+            ).map(row => ({
+                id: row['id:'],
+                title: row['title: '],
+                description: row['description_long: '],
+                duration_days: Number(row['duration_days: ']),
+                image_url: row['image_url:'],
+                arrival_city: row['arrival_city: '],
+                departure_city: row['departure_city:'],
+                region: row['region_definition: '],
+                primary_interest: row['primary_interest_category:'],
+                secondary_interest_tags: parseTags(row['secondary_interest_tags_csv']),
+                traveller_type_tags: parseTags(row['traveller_type_tags_csv: ']),
+                budget_tag: row['budget_level_csv:'],
+                approx_cost_usd_pp: Number(row['approx_cost_usd_pp:']),
+                inclusions: parseTags(row['inclusions_csv:']),
+                exclusions: parseTags(row['exclusions_csv:']),
+                videos: parseTags(row['videos_csv']),
+                gallery_images: parseTags(row['gallery_images_csv']),
+                notes: row['notes']
+            }));
+            loadingMsgAll.style.display = 'none';
+            applyAllFilters();
+        },
+        error: function(err) {
+            loadingMsgAll.style.display = 'none';
+            noResultsMsg.textContent = 'Could not load itineraries. Please try again later.';
+            noResultsMsg.style.display = 'block';
+        }
+    });
+}
+
+function displayItineraries(itinerariesToDisplay) {
+    itinerariesGrid.innerHTML = '';
+    if (itinerariesToDisplay.length === 0) {
+        noResultsMsg.textContent = "No itineraries match your current filters. Try adjusting them!";
+        noResultsMsg.style.display = 'block';
+        return;
+    }
+    noResultsMsg.style.display = 'none';
+
+    itinerariesToDisplay.forEach((trip, index) => {
+        const card = document.createElement('div');
+        card.className = 'trip-card';
+        card.dataset.tripObject = JSON.stringify(trip);
+        card.setAttribute('data-aos', 'fade-up');
+        card.setAttribute('data-aos-delay', (index % 3) * 100);
+
+        let priceDisplay = "N/A";
+
+        // Check for actual cost first
+        if (trip.approx_cost_usd_pp && trip.approx_cost_usd_pp > 0) {
+            const perDayCost = trip.duration_days && trip.duration_days > 0 ? 
+                Math.round(trip.approx_cost_usd_pp / trip.duration_days) : 
+                trip.approx_cost_usd_pp;
+            priceDisplay = `$${perDayCost} per day`;
+        }
+        // Then check budget level
+        else if (trip.budget_level) {
+            const budget = trip.budget_level.toLowerCase();
+            if (budget.includes('budget') || budget.includes('low')) priceDisplay = "$50 - $100 per day";
+            else if (budget.includes('medium') || budget.includes('mid')) priceDisplay = "$100 - $200 per day";
+            else if (budget.includes('luxury') || budget.includes('high')) priceDisplay = "$200+ per day";
+            else priceDisplay = `${trip.budget_level} budget`;
+        }
+
+        card.innerHTML = `
+            <div class="trip-card-image-container">
+                <img src="${trip.image_url || 'https://via.placeholder.com/300x180/CCCCCC/FFFFFF?text=Explore'}" alt="${trip.title}">
+                <div class="trip-card-quick-view"><i class="fas fa-eye"></i> QUICK VIEW</div>
+            </div>
+            <div class="trip-card-content">
+                <div class="trip-card-rating">
+                    <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star-half-alt"></i> 4.5 
+                </div>
+                <h4>${trip.title}</h4>
+                <div class="trip-card-details">
+                    <span><i class="fas fa-calendar-alt"></i> ${trip.duration_days || 'N/A'} Days</span>
+                    ${trip.primary_interest ? `<span><i class="fas fa-star"></i> ${trip.primary_interest}</span>` : ''}
+                </div>
+                <p class="trip-card-description">${trip.description}</p>
+                <div class="trip-card-footer">
+                    <span class="trip-card-price">From <strong>${priceDisplay}</strong> per day</span>
+                    <a href="#" class="btn-view-trip">VIEW TRIP</a>
+                </div>
+            </div>
+        `;
+
+        const handleTripCardClick = (e) => {
+            e.preventDefault();
+            const clickedCard = e.target.closest('.trip-card');
+            const tripDataString = clickedCard.dataset.tripObject;
+            if (tripDataString) {
+                const currentTripDataFromCard = JSON.parse(tripDataString);
+                localStorage.setItem('selectedTripForDetailView', tripDataString);
+                localStorage.setItem('currentUserPreferences', JSON.stringify({
+                    destination_country: currentTripDataFromCard.destination_country_for_link || getCountryFromTrip(currentTripDataFromCard)
+                }));
+                window.location.href = `trip_details.html?id=${currentTripDataFromCard.id}`;
+            }
+        };
+
+        card.querySelector('.trip-card-quick-view').addEventListener('click', handleTripCardClick);
+        card.querySelector('.btn-view-trip').addEventListener('click', handleTripCardClick);
+        itinerariesGrid.appendChild(card);
+    });
+}
+
+function applyAllFilters() {
+    const minPriceFilter = parseFloat(document.getElementById('filterMinPrice').value) || 0;
+    const maxPriceFilter = parseFloat(document.getElementById('filterMaxPrice').value) || Infinity;
+    const minDuration = parseInt(document.getElementById('filterMinDuration').value) || null;
+    const maxDuration = parseInt(document.getElementById('filterMaxDuration').value) || null;
+    const selectedInterests = Array.from(document.querySelectorAll('#filterInterests input[type="checkbox"]:checked')).map(cb => cb.value.toLowerCase());
+    const selectedDestination = filterDestinationSelect.value;
+
+    let filteredItineraries = allFetchedItineraries.filter(trip => {
+        if (!trip || typeof trip !== 'object') return false;
+
+        // Price filter
+        const price = parseFloat(trip.approx_cost_usd_pp);
+        let priceMatch = true;
+        if (minPriceFilter > 0 || maxPriceFilter !== Infinity) {
+            if (!isNaN(price) && price > 0) {
+                priceMatch = price >= minPriceFilter && price <= maxPriceFilter;
+            } else { priceMatch = false; }
+        }
+
+        // Duration filter
+        let durationMatch = true;
+        if (minDuration && trip.duration_days < minDuration) durationMatch = false;
+        if (maxDuration && trip.duration_days > maxDuration) durationMatch = false;
+
+        // Interest filter (primary interest only, exact, trimmed, lowercased match)
+        let interestMatch = true;
+        if (selectedInterests.length > 0) {
+            const primary = (trip.primary_interest || '').trim().toLowerCase();
+            interestMatch = selectedInterests.includes(primary);
+        }
+
+        // Destination filter (partial and case-insensitive)
+        let destinationMatch = selectedDestination === 'all' ||
+            (trip.region && trip.region.toLowerCase().includes(selectedDestination.toLowerCase())) ||
+            (trip.arrival_city && trip.arrival_city.toLowerCase().includes(selectedDestination.toLowerCase()));
+
+        // Budget filter
+        const formBudgetValue = document.querySelector('input[name="filterBudget"]:checked')?.value || '';
+        const selectedBudget = normalizeBudget(formBudgetValue);
+        const tripBudget = (trip.budget_tag || '').toLowerCase();
+        let budgetMatch = true;
+        if (selectedBudget && tripBudget !== selectedBudget) budgetMatch = false;
+
+        return priceMatch && durationMatch && interestMatch && destinationMatch && budgetMatch;
+    });
+
+    displayItineraries(filteredItineraries);
+}
+
+function getCountryFromTrip(trip) {
+    if (trip && trip.region && typeof trip.region === 'string') {
+        const regionLower = trip.region.toLowerCase();
+        if (regionLower.includes('vietnam')) return 'vietnam';
+        if (regionLower.includes('singapore')) return 'singapore';
+        if (regionLower.includes('india')) return 'india';
+    }
+    if (trip && trip.arrival_city && typeof trip.arrival_city === 'string') {
+        const arrivalLower = trip.arrival_city.toLowerCase();
+        if (arrivalLower.includes('hanoi') || arrivalLower.includes('ho chi minh')) return 'vietnam';
+        if (arrivalLower.includes('delhi') || arrivalLower.includes('mumbai')) return 'india';
+        if (arrivalLower.includes('singapore')) return 'singapore';
+    }
+    return 'vietnam'; // Default fallback
+}
+
+function normalizeBudget(budget) {
+    if (!budget) return '';
+    budget = budget.toLowerCase();
+    if (budget === 'affordable') return 'budget';
+    if (budget === 'pricey') return 'medium';
+    if (budget === 'luxury') return 'luxury';
+    return budget;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchItinerariesForDisplay();
+
+    filterDestinationSelect.addEventListener('change', applyAllFilters);
+    document.getElementById('applyFiltersBtn').addEventListener('click', applyAllFilters);
+    document.getElementById('filterMinPrice').addEventListener('input', applyAllFilters);
+    document.getElementById('filterMaxPrice').addEventListener('input', applyAllFilters);
+    document.getElementById('filterMinDuration').addEventListener('input', applyAllFilters);
+    document.getElementById('filterMaxDuration').addEventListener('input', applyAllFilters);
+    document.querySelectorAll('#filterInterests input[type="checkbox"]').forEach(cb => {
+        cb.addEventListener('change', applyAllFilters);
+    });
+});
+</script>
+
+<!-- Add this to your HTML pages that need auto-refresh (e.g., trip_details.html, all_itineraries.html) -->
+<script src="/js/auto-refresh.js"></script>
+<script>
+// Initialize auto-refresh when page loads
+document.addEventListener('DOMContentLoaded', () => {
+  // Get current page context
+  const urlParams = new URLSearchParams(window.location.search);
+  const itineraryId = urlParams.get('id');
+  
+  const autoRefresh = new AutoRefresh({
+    interval: 120000, // 2 minutes
+    onUpdate: (data) => {
+      console.log('New data received:', data);
+      
+      // If we're on a daily plans page, refresh those
+      if (itineraryId && window.refreshDailyPlans) {
+        refreshDailyPlans(itineraryId);
+      }
+      
+      // If we're on an itineraries page, refresh those
+      if (window.refreshItineraries) {
+        refreshItineraries();
+      }
+    },
+    onError: (error) => {
+      console.error('Auto-refresh error:', error);
+    }
+  });
+
+  // Start auto-refresh
+  autoRefresh.start();
+  
+  // Make it available globally for debugging
+  window.autoRefresh = autoRefresh;
+});
+</script>
+</body>
+</html>

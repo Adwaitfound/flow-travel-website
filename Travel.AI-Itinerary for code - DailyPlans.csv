@@ -1,0 +1,119 @@
+itinerary_id,day_number,day_title,day_main_location,activity_sequence,activity_description,activity_location_name,activity_time_of_day,activity_tags_csv
+VN_BEA_HALONGCRUISE_3D_M,1,Hanoi to Ha Long Bay Cruise,"Ha Long Bay, Vietnam",1,Morning transfer from Hanoi to Ha Long Bay.,Transfer to Ha Long,Morning,transfer
+VN_BEA_HALONGCRUISE_3D_M,1,Hanoi to Ha Long Bay Cruise,"Ha Long Bay, Vietnam",2,"Board overnight cruise, enjoy lunch as you sail.",Ha Long Bay Cruise,Afternoon,"cruise,food"
+VN_BEA_HALONGCRUISE_3D_M,1,Hanoi to Ha Long Bay Cruise,"Ha Long Bay, Vietnam",3,Visit a stunning cave like Thien Cung or Dau Go.,Thien Cung Cave,Late Afternoon,"cave,sightseeing"
+VN_BEA_HALONGCRUISE_3D_M,2,Ha Long Bay Exploration,"Ha Long Bay, Vietnam",1,Morning Tai Chi session on deck (optional).,Ha Long Bay Cruise,Morning,"wellness,activity"
+VN_BEA_HALONGCRUISE_3D_M,2,Ha Long Bay Exploration,"Ha Long Bay, Vietnam",2,Kayaking or bamboo boat ride around Luon Cave or similar area.,Luon Cave area,Morning,"kayaking,adventure,nature"
+VN_BEA_HALONGCRUISE_3D_M,2,Ha Long Bay Exploration,"Ha Long Bay, Vietnam",3,Visit Titov Island for swimming or hiking to the viewpoint.,Titov Island,Afternoon,"beach,hiking,viewpoint"
+VN_BEA_HALONGCRUISE_3D_M,2,Ha Long Bay Exploration,"Ha Long Bay, Vietnam",4,Sunset watching and dinner onboard.,Ha Long Bay Cruise,Evening,"scenery,food"
+VN_BEA_HALONGCRUISE_3D_M,3,Ha Long Bay to Hanoi,"Hanoi, Vietnam",1,Enjoy breakfast as the cruise returns to port.,Ha Long Bay Cruise,Morning,"cruise,food"
+VN_BEA_HALONGCRUISE_3D_M,3,Ha Long Bay to Hanoi,"Hanoi, Vietnam",2,Disembark and transfer back to Hanoi.,Hanoi,Late Morning/Afternoon,transfer
+VN_BEA_CATBAISLAND_4D_M,1,Hanoi to Cat Ba Island,"Cat Ba Island, Vietnam",1,"Morning transfer from Hanoi to Hai Phong, then ferry to Cat Ba.",Cat Ba Town,Full Day,"transfer,ferry"
+VN_BEA_CATBAISLAND_4D_M,1,Hanoi to Cat Ba Island,"Cat Ba Island, Vietnam",2,Check into hotel and explore Cat Ba Town.,Cat Ba Town,Afternoon,exploration
+VN_BEA_CATBAISLAND_4D_M,2,Cat Ba National Park & Cannon Fort,"Cat Ba Island, Vietnam",1,"Morning trek in Cat Ba National Park, visit Kim Giao forest.",Cat Ba National Park,Morning,"trekking,nature"
+VN_BEA_CATBAISLAND_4D_M,2,Cat Ba National Park & Cannon Fort,"Cat Ba Island, Vietnam",2,Afternoon visit Cannon Fort for panoramic views of Lan Ha Bay.,Cannon Fort,Afternoon,"viewpoint,history"
+VN_BEA_CATBAISLAND_4D_M,3,Lan Ha Bay Exploration,"Lan Ha Bay, Vietnam",1,Full day boat trip in Lan Ha Bay.,Lan Ha Bay,Full Day,"boat,nature"
+VN_BEA_CATBAISLAND_4D_M,3,Lan Ha Bay Exploration,"Lan Ha Bay, Vietnam",2,"Kayak through lagoons, visit floating villages and beaches.",Lan Ha Bay,Full Day,"kayaking,adventure,beach"
+VN_BEA_CATBAISLAND_4D_M,4,Cat Ba to Hanoi & Departure,"Hanoi, Vietnam",1,Morning free on Cat Ba or visit local market.,Cat Ba Town,Morning,"leisure,market"
+VN_BEA_CATBAISLAND_4D_M,4,Cat Ba to Hanoi & Departure,"Hanoi, Vietnam",2,Afternoon transfer back to Hanoi for departure.,Hanoi,Afternoon,"transfer,departure"
+VN_BEA_BAI TU LONG_3D_H,1,Hanoi to Bai Tu Long Bay Luxury Cruise,"Bai Tu Long Bay, VN",1,Private transfer from Hanoi to the cruise port.,Cruise Port,Morning,"transfer,luxury"
+VN_BEA_BAI TU LONG_3D_H,1,Hanoi to Bai Tu Long Bay Luxury Cruise,"Bai Tu Long Bay, VN",2,"Embark on luxury cruise, welcome drink and lunch.",Luxury Cruise,Afternoon,"cruise,food,luxury"
+VN_BEA_BAI TU LONG_3D_H,1,Hanoi to Bai Tu Long Bay Luxury Cruise,"Bai Tu Long Bay, VN",3,"Cruise to Vung Vieng fishing village, explore by rustic row-boat.",Vung Vieng Village,Late Afternoon,"culture,local life"
+VN_BEA_BAI TU LONG_3D_H,2,Bai Tu Long Bay Serenity,"Bai Tu Long Bay, VN",1,Morning Tai Chi session on sundeck.,Luxury Cruise,Morning,"wellness,activity"
+VN_BEA_BAI TU LONG_3D_H,2,Bai Tu Long Bay Serenity,"Bai Tu Long Bay, VN",2,"Visit Thien Canh Son Cave, enjoy swimming or kayaking.",Thien Canh Son Cave,Morning/Afternoon,"cave,adventure,nature,beach"
+VN_BEA_BAI TU LONG_3D_H,2,Bai Tu Long Bay Serenity,"Bai Tu Long Bay, VN",3,"Relax onboard, enjoy spa services (optional) or sunset cocktails.",Luxury Cruise,Afternoon/Evening,"wellness,luxury,scenery"
+VN_BEA_BAI TU LONG_3D_H,3,Bai Tu Long Bay Farewell & Return to Hanoi,"Hanoi, Vietnam",1,Enjoy final views of the bay with breakfast.,Luxury Cruise,Morning,"cruise,food"
+VN_BEA_BAI TU LONG_3D_H,3,Bai Tu Long Bay Farewell & Return to Hanoi,"Hanoi, Vietnam",2,Disembark and private transfer back to Hanoi.,Hanoi,Late Morning/Afternoon,"transfer,luxury"
+VN_BEA_HAN_5D_L_1,1,Hanoi Arrival & Old Quarter,"Hanoi, Vietnam",1,"Arrive at Noi Bai Airport (HAN), transfer to budget-friendly hotel/guesthouse.",Hanoi Old Quarter,Afternoon,"arrival,transfer"
+VN_BEA_HAN_5D_L_1,1,Hanoi Arrival & Old Quarter,"Hanoi, Vietnam",2,Evening: Explore Hoan Kiem Lake and enjoy local street food for dinner.,Hoan Kiem Lake,Evening,"sightseeing,food"
+VN_BEA_HAN_5D_L_1,2,Transfer to Coastal Town,"Coastal Town (e.g., Sam Son / Cua Lo - research needed), Vietnam",1,Morning: Take a local bus or train from Hanoi to a chosen coastal town.,(Specific town),Full Day,"transfer,local experience"
+VN_BEA_HAN_5D_L_1,2,Transfer to Coastal Town,"Coastal Town (e.g., Sam Son / Cua Lo - research needed), Vietnam",2,Check into guesthouse and explore the local beach area.,(Specific town) Beach,Afternoon,beach
+VN_BEA_HAN_5D_L_1,3,Beach Relaxation & Local Life,"Coastal Town, Vietnam",1,"Full day to relax on the beach, swim, and observe local fishing activities.",(Specific town) Beach,Full Day,"beach,relaxation,culture"
+VN_BEA_HAN_5D_L_1,4,Return to Hanoi,"Hanoi, Vietnam",1,Morning: Enjoy the coast. Afternoon: Transfer back to Hanoi.,Hanoi,Full Day,transfer
+VN_BEA_HAN_5D_L_1,5,Hanoi Departure,"Hanoi, Vietnam",1,Free time in Hanoi for last-minute sights or shopping before departure.,Hanoi,Any,departure
+VN_BEA_HAN_5D_M_2,1,Hanoi Arrival & City Glimpse,"Hanoi, Vietnam",1,"Arrive in Hanoi, check into hotel.",Hanoi Hotel,Afternoon,arrival
+VN_BEA_HAN_5D_M_2,1,Hanoi Arrival & City Glimpse,"Hanoi, Vietnam",2,Short orientation walk of the Old Quarter.,Hanoi Old Quarter,Evening,sightseeing
+VN_BEA_HAN_5D_M_2,2,Hanoi City Tour,"Hanoi, Vietnam",1,Morning: Visit Ho Chi Minh Mausoleum complex & Temple of Literature.,"Ho Chi Minh Mausoleum, Temple of Literature",Morning,"history,culture"
+VN_BEA_HAN_5D_M_2,2,Hanoi City Tour,"Hanoi, Vietnam",2,Afternoon: Explore the Vietnam Museum of Ethnology.,Vietnam Museum of Ethnology,Afternoon,"culture,museum"
+VN_BEA_HAN_5D_M_2,3,Halong Bay Cruise Embarkation,"Halong Bay, Vietnam",1,Morning: Transfer from Hanoi to Halong Bay.,Halong Bay Port,Morning,transfer
+VN_BEA_HAN_5D_M_2,3,Halong Bay Cruise Embarkation,"Halong Bay, Vietnam",2,"Board overnight cruise, lunch onboard, sail through limestone karsts. Visit a cave.",Halong Bay,Afternoon,"cruise,sightseeing,cave"
+VN_BEA_HAN_5D_M_2,4,Halong Bay Kayaking & Return to Hanoi,"Hanoi, Vietnam",1,Morning: Kayaking or bamboo boat ride in a lagoon. Brunch on cruise.,Halong Bay,Morning,"kayaking,adventure"
+VN_BEA_HAN_5D_M_2,4,Halong Bay Kayaking & Return to Hanoi,"Hanoi, Vietnam",2,Disembark and transfer back to Hanoi.,Hanoi,Afternoon,transfer
+VN_BEA_HAN_5D_M_2,5,Hanoi Departure,"Hanoi, Vietnam",1,Free time until airport transfer.,Hanoi,Any,departure
+VN_CUL_HAN_5D_H_3,1,Hanoi Luxury Arrival & Art Focus,"Hanoi, Vietnam",1,"Arrive, VIP transfer to luxury hotel.","Luxury Hotel, Hanoi",Afternoon,"arrival,luxury"
+VN_CUL_HAN_5D_H_3,1,Hanoi Luxury Arrival & Art Focus,"Hanoi, Vietnam",2,Evening: Private viewing at a contemporary art gallery followed by welcome dinner.,"Art Gallery, Hanoi",Evening,"art,culture,food"
+VN_CUL_HAN_5D_H_3,2,Private Historical Hanoi Tour,"Hanoi, Vietnam",1,"Full-day private guided tour: Temple of Literature, Hoa Lo Prison, Imperial Citadel.",Hanoi,Full Day,"history,culture,guidedtour"
+VN_CUL_HAN_5D_H_3,3,Exclusive Culinary Experience,"Hanoi, Vietnam",1,Morning: Private Vietnamese cooking class with a renowned chef.,Hanoi Cooking Studio,Morning,"food,culture,workshop"
+VN_CUL_HAN_5D_H_3,3,Exclusive Culinary Experience,"Hanoi, Vietnam",2,Afternoon: Explore high-end craft shops. Evening: Fine dining experience.,Hanoi,Afternoon/Evening,"shopping,food"
+VN_CUL_HAN_5D_H_3,4,Relaxation & Optional Spa,"Hanoi, Vietnam",1,"Morning at leisure or optional bespoke activity (e.g., tailor visit).",Hanoi,Morning,leisure
+VN_CUL_HAN_5D_H_3,4,Relaxation & Optional Spa,"Hanoi, Vietnam",2,Afternoon: Luxury spa treatment at hotel.,"Hotel Spa, Hanoi",Afternoon,"wellness,spa"
+VN_CUL_HAN_5D_H_3,5,Luxury Departure,"Hanoi, Vietnam",1,Enjoy hotel amenities before private transfer to airport.,Noi Bai Airport,Any,"departure,luxury"
+VN_MOU_HAN_5D_M_4,1,Hanoi Arrival & Sapa Prep,"Hanoi, Vietnam",1,"Arrive Hanoi, check in. Evening briefing for Sapa trip.",Hanoi,Afternoon/Evening,arrival
+VN_MOU_HAN_5D_M_4,2,Overnight Train/Bus to Lao Cai/Sapa,"Lao Cai/Sapa, Vietnam",1,Day free in Hanoi. Evening transfer to train station/bus for Sapa.,Hanoi / On train/bus,Full Day,transfer
+VN_MOU_HAN_5D_M_4,3,Sapa Arrival & Valley Trek,"Sapa, Vietnam",1,"Arrive Lao Cai, transfer to Sapa. Start trek to ethnic minority village (e.g., Cat Cat or Lao Chai).",Cat Cat Village / Lao Chai Village,Full Day,"trekking,nature,culture"
+VN_MOU_HAN_5D_M_4,4,Sapa Trek & Homestay / Return to Lao Cai,"Sapa/Lao Cai, Vietnam",1,Continue trekking through rice terraces. Option for homestay or return to Sapa town then Lao Cai for night train/bus.,Ta Van Village / Sapa,Full Day,"trekking,culture"
+VN_MOU_HAN_5D_M_4,5,Arrive Hanoi & Departure,"Hanoi, Vietnam",1,Arrive Hanoi early morning. Day free until departure or connect to flight.,Hanoi,Full Day,"transfer,departure"
+VN_MOU_HAN_5D_L_5,1,Hanoi Arrival,"Hanoi, Vietnam",1,"Arrive in Hanoi, check into budget accommodation.",Hanoi,Any,arrival
+VN_MOU_HAN_5D_L_5,2,Hanoi City Exploration,"Hanoi, Vietnam",1,"Self-guided tour of Hoan Kiem Lake, Ngoc Son Temple, Old Quarter.",Hanoi Old Quarter,Full Day,"sightseeing,culture"
+VN_MOU_HAN_5D_L_5,3,Day Trip to Ba Vi National Park,"Ba Vi National Park, Vietnam",1,Early morning bus to Ba Vi National Park.,Ba Vi National Park,Morning,"transfer,nature"
+VN_MOU_HAN_5D_L_5,3,Day Trip to Ba Vi National Park,"Ba Vi National Park, Vietnam",2,Hike to Dinh Vua (King's Peak) or explore the old French ruins. Picnic lunch.,Ba Vi Mountain,Full Day,"hiking,nature,views"
+VN_MOU_HAN_5D_L_5,4,Ba Vi Relaxation & Return to Hanoi,"Hanoi, Vietnam",1,Morning relax in Ba Vi or another short walk. Afternoon bus back to Hanoi.,Hanoi,Full Day,"nature,transfer"
+VN_MOU_HAN_5D_L_5,5,Hanoi Departure,"Hanoi, Vietnam",1,Last chance for souvenirs before heading to the airport.,Hanoi,Any,departure
+IN_BEA_MAA_3D_M1,1,Chennai City,CHennai,1,Chennai's Iconic Shores & Coastal Calm,Chennai,Full Day,"Sightseeing, beaches"
+IN_BEA_MAA_3D_M1,2,ECR Beach Hopping,CHennai,1,ECR Beach Hopping & Coastal Discovery,Chennai,Full Day,"Sightseeing, beaches"
+IN_BEA_MAA_3D_M1,3,Ancient Shores of Mahabalipuram & Departure,CHennai,1,Ancient Shores of Mahabalipuram & Departure,Mahabalipuram,Full Day,"Sightseeing, beaches, cutlure"
+IN_CUL_DELHIAGRA_5D_M,1,Arrival in Delhi & Old City Charm,"Delhi, India",1,"Arrive at Indira Gandhi International Airport (DEL), transfer to hotel.",Hotel in Delhi,Afternoon,"arrival,transfer"
+IN_CUL_DELHIAGRA_5D_M,1,Arrival in Delhi & Old City Charm,"Delhi, India",2,Evening: Explore Chandni Chowk market by rickshaw.,"Chandni Chowk, Old Delhi",Evening,"market,culture,cityexploration"
+IN_CUL_DELHIAGRA_5D_M,1,Arrival in Delhi & Old City Charm,"Delhi, India",3,"Visit Jama Masjid, one of India's largest mosques.","Jama Masjid, Old Delhi",Evening,"historical,sightseeing"
+IN_CUL_DELHIAGRA_5D_M,2,New Delhi's Landmarks,"New Delhi, India",1,Morning: Visit Humayun's Tomb (UNESCO World Heritage site).,Humayun's Tomb,Morning,"history,unesco"
+IN_CUL_DELHIAGRA_5D_M,2,New Delhi's Landmarks,"New Delhi, India",2,"Drive past India Gate, Parliament House, and President's Residence.",India Gate area,Late Morning,sightseeing
+IN_CUL_DELHIAGRA_5D_M,2,New Delhi's Landmarks,"New Delhi, India",3,Afternoon: Explore the Lotus Temple.,Lotus Temple,Afternoon,"spirituality,architecture"
+IN_CUL_DELHIAGRA_5D_M,3,Journey to Agra & Agra Fort,"Agra, India",1,Morning: Drive from Delhi to Agra (approx. 3-4 hours).,Agra,Morning,transfer
+IN_CUL_DELHIAGRA_5D_M,3,Journey to Agra & Agra Fort,"Agra, India",2,Check into hotel. Afternoon: Visit the impressive Agra Fort (UNESCO).,Agra Fort,Afternoon,"history,unesco"
+IN_CUL_DELHIAGRA_5D_M,4,The Taj Mahal & Return to Delhi,"Delhi, India",1,Early morning: Visit the Taj Mahal at sunrise for breathtaking views.,"Taj Mahal, Agra",Sunrise,"iconic,unesco,sightseeing"
+IN_CUL_DELHIAGRA_5D_M,4,The Taj Mahal & Return to Delhi,"Delhi, India",2,"After breakfast, explore Mehtab Bagh for another view of Taj Mahal (optional).","Mehtab Bagh, Agra",Morning,viewpoint
+IN_CUL_DELHIAGRA_5D_M,4,The Taj Mahal & Return to Delhi,"Delhi, India",3,Afternoon: Drive back to Delhi.,Delhi,Afternoon,transfer
+IN_CUL_DELHIAGRA_5D_M,5,Delhi Departure,"Delhi, India",1,Morning free for last-minute shopping or optional visit to Qutub Minar.,Delhi,Morning,"leisure,shopping"
+IN_CUL_DELHIAGRA_5D_M,5,Delhi Departure,"Delhi, India",2,Transfer to airport for departure.,Indira Gandhi International Airport (DEL),Afternoon,departure
+IN_BEA_GOA_7D_L,1,Arrival in Goa & North Goa Beach,"North Goa, India",1,"Arrive at Dabolim Airport (GOI), transfer to guesthouse in North Goa (e.g., Anjuna/Baga).",North Goa Guesthouse,Afternoon,"arrival,transfer"
+IN_BEA_GOA_7D_L,1,Arrival in Goa & North Goa Beach,"North Goa, India",2,Settle in and take a walk along the beach.,Anjuna Beach or Baga Beach,Evening,"beach,relaxation"
+IN_BEA_GOA_7D_L,2,North Goa Exploration,"North Goa, India",1,Rent a scooter. Explore Calangute and Candolim beaches.,"Calangute Beach, Candolim Beach",Full Day,"beach,adventure,cityexploration"
+IN_BEA_GOA_7D_L,2,North Goa Exploration,"North Goa, India",2,Visit the Anjuna Flea Market (if Wednesday).,Anjuna Flea Market,Afternoon,"market,shopping"
+IN_BEA_GOA_7D_L,3,Old Goa Heritage,"Old Goa, India",1,Day trip to Old Goa (UNESCO World Heritage site).,Old Goa,Full Day,"history,culture,unesco"
+IN_BEA_GOA_7D_L,3,Old Goa Heritage,"Old Goa, India",2,Visit Basilica of Bom Jesus and Se Cathedral.,"Basilica of Bom Jesus, Se Cathedral",Morning/Afternoon,sightseeing
+IN_BEA_GOA_7D_L,4,South Goa Transfer & Beach Time,"South Goa, India",1,"Transfer from North Goa to South Goa (e.g., Palolem/Agonda).",South Goa Accommodation,Morning,transfer
+IN_BEA_GOA_7D_L,4,South Goa Transfer & Beach Time,"South Goa, India",2,Relax on the quieter beaches of South Goa.,Palolem Beach or Agonda Beach,Afternoon,"beach,relaxation"
+IN_BEA_GOA_7D_L,5,South Goa Leisure,"South Goa, India",1,"Full day at leisure. Optional: Kayaking, dolphin watching trip, or yoga.",South Goa,Full Day,"leisure,wellness,adventure"
+IN_BEA_GOA_7D_L,6,Spice Plantation & Return North (Optional),"North Goa / Ponda, India",1,Optional visit to a spice plantation near Ponda.,Sahakari Spice Farm (example),Morning,"nature,food,culture"
+IN_BEA_GOA_7D_L,6,Spice Plantation & Return North (Optional),"North Goa / Ponda, India",2,Return to North Goa or stay another night in South Goa.,North Goa,Afternoon,transfer
+IN_BEA_GOA_7D_L,7,Goa Departure,"Goa, India",1,Enjoy a final Goan breakfast. Transfer to Dabolim Airport.,Dabolim Airport (GOI),Any,departure
+IN_MOU_RISHIKESH_5D_M,1,Arrival Dehradun & Transfer to Rishikesh,"Rishikesh, India",1,"Arrive at Jolly Grant Airport (DED), Dehradun. Transfer to Rishikesh (approx. 1 hour).",Rishikesh Hotel/Ashram,Afternoon,"arrival,transfer"
+IN_MOU_RISHIKESH_5D_M,1,Arrival Dehradun & Transfer to Rishikesh,"Rishikesh, India",2,"Check in and evening walk along the Ganges, witness Ganga Aarti at Parmarth Niketan or Triveni Ghat.",Parmarth Niketan Ghat,Evening,"spirituality,culture"
+IN_MOU_RISHIKESH_5D_M,2,Ashrams & Beatles Connection,"Rishikesh, India",1,Morning Yoga/Meditation session.,Hotel/Ashram,Morning,"wellness,spirituality"
+IN_MOU_RISHIKESH_5D_M,2,Ashrams & Beatles Connection,"Rishikesh, India",2,Explore famous ashrams like Sivananda Ashram or visit the Beatles Ashram (Maharishi Mahesh Yogi Ashram).,Beatles Ashram,Afternoon,"history,culture"
+IN_MOU_RISHIKESH_5D_M,3,Adventure or Spiritual Exploration,"Rishikesh, India",1,Optional: Morning white-water rafting (seasonal) or a trek to a nearby waterfall like Neer Garh.,Shivpuri (for rafting) / Neer Garh Waterfall,Morning,"adventure,nature"
+IN_MOU_RISHIKESH_5D_M,3,Adventure or Spiritual Exploration,"Rishikesh, India",2,"Alternatively, spend more time in meditation or attend a satsang (spiritual discourse).",Rishikesh,Afternoon,"spirituality,wellness"
+IN_MOU_RISHIKESH_5D_M,4,Laxman Jhula & Ram Jhula,"Rishikesh, India",1,Explore the iconic suspension bridges Laxman Jhula and Ram Jhula.,"Laxman Jhula, Ram Jhula",Full Day,"sightseeing,cityexploration"
+IN_MOU_RISHIKESH_5D_M,4,Laxman Jhula & Ram Jhula,"Rishikesh, India",2,Visit temples and shops around these areas. Enjoy local cafes.,Rishikesh,Full Day,"food,culture"
+IN_MOU_RISHIKESH_5D_M,5,Departure from Dehradun,"Dehradun, India",1,Morning free in Rishikesh. Transfer to Dehradun airport for departure.,Jolly Grant Airport (DED),Afternoon,"departure,transfer"
+IN_CUL_JAIPUR_3D_L,1,Arrival in Jaipur & City Palace,"Jaipur, India",1,"Arrive in Jaipur, check into budget hotel.",Jaipur Hotel,Afternoon,arrival
+IN_CUL_JAIPUR_3D_L,1,Arrival in Jaipur & City Palace,"Jaipur, India",2,Visit the City Palace complex and Jantar Mantar (observatory).,"City Palace, Jantar Mantar",Afternoon,"history,culture,unesco"
+IN_CUL_JAIPUR_3D_L,2,Amber Fort & Hawa Mahal,"Jaipur, India",1,Morning excursion to Amber Fort. Enjoy an elephant ride (optional).,Amber Fort,Morning,"history,fort,unesco"
+IN_CUL_JAIPUR_3D_L,2,Amber Fort & Hawa Mahal,"Jaipur, India",2,Afternoon: Photo stop at Jal Mahal and visit Hawa Mahal (Palace of Winds).,"Jal Mahal, Hawa Mahal",Afternoon,"sightseeing,architecture"
+IN_CUL_JAIPUR_3D_L,2,Amber Fort & Hawa Mahal,"Jaipur, India",3,Evening: Explore local bazaars like Johari Bazaar or Bapu Bazaar.,Johari Bazaar,Evening,"shopping,market"
+IN_CUL_JAIPUR_3D_L,3,Departure from Jaipur,"Jaipur, India",1,Morning free or visit Albert Hall Museum.,Albert Hall Museum (optional),Morning,"museum,leisure"
+IN_CUL_JAIPUR_3D_L,3,Departure from Jaipur,"Jaipur, India",2,Transfer to Jaipur airport/railway station for departure.,Jaipur Airport/Station,Afternoon,departure
+IN_BEA_KERALA_10D_H,1,Arrival in Kochi & Fort Kochi,"Kochi, India",1,"Arrive at Cochin International Airport (COK), transfer to luxury hotel in Fort Kochi.",Fort Kochi Hotel,Afternoon,"arrival,transfer"
+IN_BEA_KERALA_10D_H,1,Arrival in Kochi & Fort Kochi,"Kochi, India",2,Evening: Witness a Kathakali dance performance.,"Kathakali Centre, Fort Kochi",Evening,"culture,performance"
+IN_BEA_KERALA_10D_H,2,Fort Kochi Exploration,"Kochi, India",1,"Explore Fort Kochi: Chinese Fishing Nets, St. Francis Church, Mattancherry Palace (Dutch Palace).",Fort Kochi,Full Day,"history,culture,cityexploration"
+IN_BEA_KERALA_10D_H,3,To Alleppey & Houseboat Embarkation,"Alleppey (Alappuzha), India",1,Morning drive to Alleppey. Board your private luxury houseboat by noon.,Alleppey Backwaters,Afternoon,"transfer,houseboat"
+IN_BEA_KERALA_10D_H,3,To Alleppey & Houseboat Embarkation,"Alleppey (Alappuzha), India",2,"Cruise through the serene backwaters, enjoying meals prepared onboard.",Kerala Backwaters,Afternoon/Evening,"nature,food,relaxation"
+IN_BEA_KERALA_10D_H,4,Backwater Village Life & Disembark,"Alleppey / Kumarakom or Marari, India",1,Morning cruise continues. Option to visit a village and see local life.,Kerala Backwaters,Morning,"culture,nature"
+IN_BEA_KERALA_10D_H,4,Backwater Village Life & Disembark,"Alleppey / Kumarakom or Marari, India",2,"Disembark houseboat and transfer to a luxury beach resort (e.g., Marari Beach or Kumarakom).",Marari Beach Resort (example),Afternoon,"transfer,beach"
+IN_BEA_KERALA_10D_H,5,Marari Beach Relaxation,"Marari Beach, India",1,"Full day to relax at the beach resort. Enjoy swimming, sunbathing.",Marari Beach,Full Day,"beach,relaxation,wellness"
+IN_BEA_KERALA_10D_H,6,Ayurvedic Wellness,"Marari Beach, India",1,Indulge in an Ayurvedic massage session or other wellness treatments offered at the resort.,Resort Spa,Full Day,"wellness,spa"
+IN_BEA_KERALA_10D_H,7,Explore Local Fishing Village / Back to Kochi,"Marari / Kochi, India",1,Optional morning visit to a local fishing village near Marari.,Local Fishing Village,Morning,culture
+IN_BEA_KERALA_10D_H,7,Explore Local Fishing Village / Back to Kochi,"Marari / Kochi, India",2,"Afternoon, transfer back to Kochi or to another beach destination if preferred.",Kochi,Afternoon,transfer
+IN_BEA_KERALA_10D_H,8,Kochi Shopping & Leisure,"Kochi, India",1,"Day for souvenir shopping (spices, handicrafts) or relaxing in Fort Kochi.",Fort Kochi / Jew Town,Full Day,"shopping,leisure"
+IN_BEA_KERALA_10D_H,9,"Optional Day Trip (e.g., Munnar Teaser)","Munnar (long day) or Athirapally Falls, India",1,Optional long day trip to Munnar's tea gardens or closer Athirapally Waterfalls.,Munnar / Athirapally,Full Day,"nature,adventure,optional"
+IN_BEA_KERALA_10D_H,10,Departure from Kochi,"Kochi, India",1,Enjoy a final Kerala breakfast. Transfer to Cochin International Airport (COK) for departure.,Cochin International Airport,Any,departure

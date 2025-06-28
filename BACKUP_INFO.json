@@ -1,0 +1,28 @@
+{
+  "project": "TravelAI",
+  "timestamp": "2025-06-28T02-43-58",
+  "backupDate": "2025-06-27T21:13:58.3NZ",
+  "sourceDirectory": "/Users/adwaitparchure/Adwait Work/Travel Brand Versions/TravelAI-Backup-2025-06-27T11-49-26",
+  "backupDirectory": "/Users/adwaitparchure/Adwait Work/Travel Brand Versions/TravelAI-Backup-2025-06-28T02-43-28",
+  "itemsBacked": [
+    "public",
+    "server.js", 
+    "package.json",
+    "package-lock.json",
+    ".env",
+    "data",
+    "Travel.AI-Itinerary for code - Itineraries.csv",
+    "Travel.AI-Itinerary for code - DailyPlans.csv",
+    "node_modules"
+  ],
+  "node_version": "v22.16.0",
+  "platform": "darwin",
+  "backupReason": "Before AI chat interface implementation",
+  "changes": [
+    "Added AI chat interface to trip_details.html",
+    "Fixed strict interest and budget filtering",
+    "Added /api/customize-trip endpoint",
+    "Added /api/ai-status endpoint",
+    "Improved error handling for Gemini AI"
+  ]
+}

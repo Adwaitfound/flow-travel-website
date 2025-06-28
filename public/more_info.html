@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Little More Info - Flow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        :root {
+            --primary-dark-charcoal: #131A23; 
+            --primary-bright-yellow: #F6EF31; 
+            --text-on-dark: #FFFFFF;
+            --text-primary-content: #2c3e50; 
+            --background-light: #FFFFFF;
+            --background-page: #f8f9fa;
+            --border-light: #e0e0e0;
+            --border-form-input: #ced4da;
+            --accent-greenish-yellow: #95cb00; 
+            --accent-greenish-yellow-darker: #7da800;
+            --text-dark: #333333;
+            --text-medium: #555555;
+        }
+        body, html {
+            margin: 0; padding: 0; font-family: 'Montserrat', sans-serif;
+            line-height: 1.6; color: var(--text-primary-content); background-color: var(--background-page);
+        }
+        .container { width: 90%; max-width: 700px; margin: 30px auto; padding: 0 20px; }
+        
+        .container-header {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+
+        header.page-top-header {
+            background: var(--primary-dark-charcoal);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1001;
+            transition: background 0.3s;
+            padding: 0;
+            height: 60px;
+        }
+        header.page-top-header h1.logo {
+            color: var(--text-on-dark);
+            margin: 0;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+        header.page-top-header nav ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            height: 60px;
+        }
+        header.page-top-header nav ul li {
+            margin-left: 25px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+        }
+        header.page-top-header nav ul li a {
+            text-decoration: none;
+            color: var(--text-on-dark-subtle);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 0.9em;
+        }
+        header.page-top-header nav ul li a:hover,
+        header.page-top-header nav ul li a.active {
+            color: var(--primary-bright-yellow);
+        }
+
+        .info-card {
+            background-color: var(--background-light);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+        }
+        .info-card h1 {
+            font-size: 1.8em;
+            color: var(--primary-dark-charcoal);
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .info-card h1 i {
+            color: var(--accent-greenish-yellow);
+            margin-right: 10px;
+        }
+        .initial-selection-summary {
+            background-color: #f0f2f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 0.95em;
+        }
+        .initial-selection-summary p { margin: 5px 0; color: var(--text-medium); }
+        .initial-selection-summary strong { color: var(--text-dark); }
+
+        .form-group { margin-bottom: 25px; }
+        .form-group label.main-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            color: var(--text-dark);
+        }
+        .radio-group-container, .checkbox-grid-container { 
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        .radio-group label, .checkbox-group label { 
+            display: flex; align-items: center; cursor: pointer;
+            padding: 10px 12px; color: #495057; border-radius: 8px;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+            background-color: #f8f9fa; border: 1px solid var(--border-light);
+            font-size: 0.9em;
+        }
+        .radio-group label:hover, .checkbox-group label:hover { background-color: #e9ecef; }
+        .radio-group input[type="radio"], .checkbox-group input[type="checkbox"] {
+            margin-right: 10px; transform: scale(1.1);
+            accent-color: var(--accent-greenish-yellow);
+        }
+        .form-group input[type="number"] {
+             width: 80px; padding: 10px; border: 1px solid var(--border-form-input); 
+             border-radius: 6px; font-size: 0.9em; margin-top: 5px;
+        }
+        
+        .btn-submit-more-info {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text-on-dark);
+            background-color: var(--accent-greenish-yellow);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn-submit-more-info:hover { background-color: var(--accent-greenish-yellow-darker); }
+        #loadingIndicator { text-align:center; margin-top: 20px; font-size: 1.1em; color: var(--accent-greenish-yellow); }
+        #errorMessage { margin-top:20px; padding: 15px; border-radius: 5px; text-align: center; border: 1px solid #dc3545; background-color: #f8d7da; color: #721c24; display:none; }
+
+        footer.page-bottom-footer { 
+            background: var(--primary-dark-charcoal); color: var(--text-on-dark-subtle);
+            text-align: center; padding: 30px 0; margin-top: 50px;
+        }
+        footer.page-bottom-footer .container-footer { width: 90%; max-width: 1100px; margin: auto; padding: 15px 20px;}
+        footer.page-bottom-footer a { color: var(--primary-bright-yellow); text-decoration: none; }
+        footer.page-bottom-footer a:hover { color: var(--text-on-dark); text-decoration: underline;}
+
+        /* Add these styles to your existing <style> section */
+
+        .container-header {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+
+        header.page-top-header {
+            background: var(--primary-dark-charcoal);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1001;
+            transition: background 0.3s;
+            padding: 0;
+            height: 60px;
+        }
+
+        header.page-top-header h1.logo {
+            color: var(--text-on-dark);
+            margin: 0;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        header.page-top-header nav ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            height: 60px;
+        }
+
+        header.page-top-header nav ul li {
+            margin-left: 25px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        header.page-top-header nav ul li a {
+            text-decoration: none;
+            color: var(--text-on-dark-subtle);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        header.page-top-header nav ul li a:hover,
+        header.page-top-header nav ul li a.active {
+            color: var(--primary-bright-yellow);
+        }
+
+        /* Make sure the main content doesn't get hidden behind the header */
+        .container {
+            margin-top: 20px;
+        }
+
+        /* Add to your existing styles */
+        @media (max-width: 768px) {
+            .container-header {
+                flex-direction: column;
+                height: auto;
+                padding: 10px 20px;
+            }
+            
+            header.page-top-header nav ul {
+                flex-direction: column;
+                height: auto;
+                gap: 10px;
+                margin-top: 10px;
+            }
+            
+            header.page-top-header nav ul li {
+                margin-left: 0;
+                height: auto;
+            }
+            
+            header.page-top-header {
+                height: auto;
+                position: relative;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="page-top-header">
+        <div class="container-header">
+            <h1 class="logo" style="cursor:pointer;" onclick="window.location.href='intro.html'">Flow</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#travel-destinations">Destinations</a></li>
+                    <li><a href="index.html#popular-trips">Popular Trips</a></li>
+                    <li><a href="index.html#contact-footer">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container" data-aos="fade-up">
+        <div class="info-card">
+            <h1><i class="fas fa-info-circle"></i>A little more about your trip...</h1>
+
+            <div class="initial-selection-summary">
+                <p>Destination: <strong id="summaryDestination"></strong></p>
+                <p id="summaryDatesP" style="display:none;">Dates: <strong id="summaryDates"></strong></p>
+            </div>
+
+            <form id="moreInfoForm">
+                <div class="form-group">
+                    <label class="main-label">What kind of traveller are you?</label>
+                    <div class="radio-group-container">
+                        <label class="radio-group"><input type="radio" name="travelStyle" value="solo" required> Solo</label>
+                        <label class="radio-group"><input type="radio" name="travelStyle" value="couple"> Couple</label>
+                        <label class="radio-group"><input type="radio" name="travelStyle" value="family"> Family</label>
+                        <label class="radio-group"><input type="radio" name="travelStyle" value="group"> Friends/Group</label>
+                    </div>
+                </div>
+
+                <div class="form-group" id="groupSizeSection" style="display:none; margin-left: 20px;">
+                    <label for="groupSize">Number of people (including yourself):</label>
+                    <input type="number" id="groupSize" name="groupSize" min="1" placeholder="e.g., 4">
+                </div>
+
+                <div class="form-group">
+                    <label class="main-label">What's your budget style?</label>
+                    <div class="radio-group-container">
+                        <label class="radio-group"><input type="radio" name="budget" value="budget" required> Affordable</label>
+                        <label class="radio-group"><input type="radio" name="budget" value="medium" required> Pricey</label>
+                        <label class="radio-group"><input type="radio" name="budget" value="luxury" required> Luxury</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="main-label">What type of experience are you primarily looking for? <small>(Select up to 3 for best results)</small></label>
+                    <div class="checkbox-grid-container" id="interestsCheckboxesMoreInfo">
+                        <label class="checkbox-group"><input type="checkbox" name="more_interests" value="beaches"> <i class="fas fa-umbrella-beach" style="margin-right: 5px;"></i> Beaches</label>
+                        <label class="checkbox-group"><input type="checkbox" name="more_interests" value="mountains"> <i class="fas fa-mountain" style="margin-right: 5px;"></i> Mountains</label>
+                        <label class="checkbox-group"><input type="checkbox" name="more_interests" value="adventure"> <i class="fas fa-hiking" style="margin-right: 5px;"></i> Adventure</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit-more-info">Find My Trip <i class="fas fa-arrow-right"></i></button>
+            </form>
+            <div id="loadingIndicator" style="display: none;"><p><i class="fas fa-spinner fa-spin"></i> Finding itineraries...</p></div>
+            <div id="errorMessage" style="display:none;"></div>
+        </div>
+    </div>
+
+    <div id="destinationInfo">
+      <div>Destination: <span id="destinationName">Vietnam</span></div>
+      <div>Dates: <span id="tripDates">2025-06-06 to 2025-06-12</span></div>
+      <div id="durationDisplay"></div>
+    </div>
+
+    <footer class="page-bottom-footer container-fluid">
+        <div class="container-footer"> 
+            <p>© <span id="year"></span> Travel.AI - All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init({ duration: 600, once: true });
+    </script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+        const initialSelections = {}; 
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            initialSelections.destination_country = urlParams.get('destination') || 'Not specified';
+            initialSelections.startDate = urlParams.get('startDate') || '';
+            initialSelections.endDate = urlParams.get('endDate') || '';
+            initialSelections.starting_city = urlParams.get('starting_city') || '';
+            initialSelections.interests = []; 
+
+            document.getElementById('summaryDestination').textContent = initialSelections.destination_country.charAt(0).toUpperCase() + initialSelections.destination_country.slice(1);
+            const summaryDatesP = document.getElementById('summaryDatesP');
+            if (initialSelections.startDate && initialSelections.endDate) {
+                document.getElementById('summaryDates').textContent = `${initialSelections.startDate} to ${initialSelections.endDate}`;
+                if(summaryDatesP) summaryDatesP.style.display = 'block';
+            } else if (summaryDatesP) {
+                summaryDatesP.style.display = 'none';
+            }
+
+            // Group size handling
+            const travelStyleRadios = document.querySelectorAll('input[name="travelStyle"]');
+            const groupSizeSection = document.getElementById('groupSizeSection');
+            const groupSizeInput = document.getElementById('groupSize');
+
+            if(travelStyleRadios && groupSizeSection && groupSizeInput) {
+                travelStyleRadios.forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        if (this.value === 'family' || this.value === 'group') {
+                            groupSizeSection.style.display = 'block';
+                            groupSizeInput.required = true;
+                        } else {
+                            groupSizeSection.style.display = 'none';
+                            groupSizeInput.required = false;
+                            groupSizeInput.value = '';
+                        }
+                    });
+                });
+            }
+        });
+
+        const moreInfoForm = document.getElementById('moreInfoForm');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const errorMessageDiv = document.getElementById('errorMessage');
+
+        if (moreInfoForm) {
+            moreInfoForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                if(errorMessageDiv) errorMessageDiv.style.display = 'none';
+                if(loadingIndicator) loadingIndicator.style.display = 'block';
+
+                const travelStyleChecked = document.querySelector('input[name="travelStyle"]:checked');
+                const budgetChecked = document.querySelector('input[name="budget"]:checked');
+                const groupSizeInput = document.getElementById('groupSize');
+                
+                let formIsValid = true;
+
+                if (!travelStyleChecked) { 
+                    alert("Please select your travel style."); 
+                    formIsValid = false; 
+                }
+
+                if (!budgetChecked) { 
+                    alert("Please select your budget style."); 
+                    formIsValid = false; 
+                }
+                
+                // Make interests optional - don't require any selection
+                const selectedMoreInterests = [];
+                document.querySelectorAll('#interestsCheckboxesMoreInfo input[name="more_interests"]:checked').forEach(checkbox => {
+                    selectedMoreInterests.push(checkbox.value);
+                });
+
+                // Allow 0-3 interests instead of requiring at least 1
+                if (selectedMoreInterests.length > 3) {
+                    alert("Please select no more than 3 interests for best results."); 
+                    formIsValid = false;
+                }
+
+                if (!formIsValid) {
+                    if(loadingIndicator) loadingIndicator.style.display = 'none';
+                    return;
+                }
+                
+                const finalPreferences = {
+                    destination_country: initialSelections.destination_country,
+                    startDate: initialSelections.startDate,
+                    endDate: initialSelections.endDate,
+                    starting_city: initialSelections.starting_city,
+                    travelStyle: travelStyleChecked.value,
+                    budget: budgetChecked.value,
+                    interests: selectedMoreInterests
+                };
+
+                if (travelStyleChecked.value === 'family' || travelStyleChecked.value === 'group') {
+                    finalPreferences.groupSize = parseInt(groupSizeInput.value);
+                }
+                
+                console.log("Final Preferences being sent from more_info.html:", JSON.stringify(finalPreferences));
+
+                const backendUrl = '/generate-itinerary';
+                try {
+                    const response = await fetch(backendUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(finalPreferences)
+                    });
+
+                    if(loadingIndicator) loadingIndicator.style.display = 'none';
+
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({ message: "An unknown error occurred."})); 
+                        throw new Error(errorData.error || errorData.message || `HTTP error! Status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    console.log("✅ Server response:", data);
+
+                    if (data.options && data.options.length > 0) {
+                        localStorage.setItem('itineraryOptions', JSON.stringify(data.options));
+                        localStorage.setItem('currentUserPreferences', JSON.stringify(finalPreferences));
+                        window.location.href = 'itinerary_options.html';
+                    } else {
+                        if(errorMessageDiv) {
+                            errorMessageDiv.textContent = "No itineraries found matching your criteria. Try adjusting your preferences.";
+                            errorMessageDiv.style.display = 'block';
+                        }
+                    }
+                } catch (error) {
+                    if(loadingIndicator) loadingIndicator.style.display = 'none';
+                    console.error("❌ Error submitting preferences from more_info.html:", error);
+                    if(errorMessageDiv) {
+                        errorMessageDiv.textContent = `Error: ${error.message}. Please try again.`;
+                        errorMessageDiv.style.display = 'block';
+                    }
+                }
+            });
+        }
+
+        // Duration calculation script
+        const datesText = document.getElementById('tripDates').textContent.trim();
+        // Expecting format: YYYY-MM-DD to YYYY-MM-DD
+        const [start, end] = datesText.split('to').map(s => s.trim());
+        if (start && end) {
+          const startDate = new Date(start);
+          const endDate = new Date(end);
+          if (!isNaN(startDate) && !isNaN(endDate)) {
+            const diff = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+            document.getElementById('durationDisplay').textContent = `Duration: ${diff} days`;
+          }
+        }
+    </script>
+</body>
+</html>
