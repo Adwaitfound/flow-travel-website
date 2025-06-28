@@ -765,49 +765,81 @@
             noPopularMessage.style.display = 'none';
 
             let allFeaturedTrips = [];
-            const destinationsToFetch = ['vietnam', 'singapore', 'india'];
 
             try {
-                for (const dest of destinationsToFetch) {
-                    const response = await fetch(`/api/featured-itineraries?destination=${dest}&count=3`);
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data.options && data.options.length > 0) {
-                            allFeaturedTrips.push(...data.options);
-                        }
-                    } else {
-                        console.warn(`Could not fetch featured trips for ${dest}: ${response.status}`);
-                    }
+                // Your actual Google Sheets URL - converted to JSON format
+                const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/1kveuYiGZhWbhQG9VlSQLwc_82v4S3h5669iLh-qfS18/gviz/tq?tqx=out:json&sheet=Sheet1';
+                
+                console.log('Fetching from Google Sheets...');
+                const response = await fetch(GOOGLE_SHEETS_URL);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                allFeaturedTrips.sort(() => 0.5 - Math.random());
+                
+                const text = await response.text();
+                console.log('Raw response:', text.substring(0, 200)); // Log first 200 chars
+                
+                // Parse Google Sheets JSON response (it comes wrapped in a function call)
+                const jsonText = text.substring(47).slice(0, -2);
+                const data = JSON.parse(jsonText);
+                
+                console.log('Google Sheets data:', data);
+                
+                if (data.table && data.table.rows && data.table.rows.length > 0) {
+                    const headers = data.table.cols.map(col => col.label || col.id);
+                    console.log('Headers:', headers);
+                    
+                    // Convert rows to trip objects
+                    const trips = data.table.rows.map(row => {
+                        const trip = {};
+                        headers.forEach((header, index) => {
+                            const cellValue = row.c[index] ? row.c[index].v : '';
+                            trip[header] = cellValue;
+                        });
+                        return trip;
+                    }).filter(trip => {
+                        // Filter out empty rows - check for title in various formats
+                        const title = trip.title || trip['title:'] || trip['Title'] || trip['TITLE'];
+                        return title && title.trim().length > 0;
+                    });
+                    
+                    console.log('Processed trips:', trips);
+                    console.log('Number of trips found:', trips.length);
+                    
+                    // Randomly shuffle and select trips
+                    allFeaturedTrips = trips.sort(() => 0.5 - Math.random()).slice(0, 9);
+                }
 
                 loadingPopularMsg.style.display = 'none';
+                
                 if (allFeaturedTrips.length > 0) {
+                    // Add promotional card first
                     const promoCard = document.createElement('div');
                     promoCard.className = 'trip-card trip-card-promo';
                     promoCard.setAttribute('data-aos', 'fade-right');
                     promoCard.innerHTML = `
-    <div class="promo-content">
-        <h3>Get set for Adventure!</h3>
-        <p>Save extra when you book your dream trip with Flow</p>
-        <a href="all_itineraries.html" class="btn-view-trip">EXPLORE TRIPS</a>
-    </div>
-`;
+                        <div class="promo-content">
+                            <h3>Get set for Adventure!</h3>
+                            <p>Save extra when you book your dream trip with Flow</p>
+                            <a href="all_itineraries.html" class="btn-view-trip">EXPLORE TRIPS</a>
+                        </div>
+                    `;
                     popularTripsContainer.appendChild(promoCard);
 
+                    // Add trip cards
                     allFeaturedTrips.slice(0, 7).forEach((trip, index) => {
                         const card = document.createElement('div');
                         card.className = 'trip-card';
                         card.setAttribute('data-aos', 'fade-up');
                         card.setAttribute('data-aos-delay', (index + 1) * 100);
 
-                        // FIXED: Complete price calculation logic
+                        // Calculate price display with flexible field names
                         let priceDisplay = "Price on request";
-
-                        // Check for actual cost first (Google Sheets field names with colons)
-                        const costField = trip['approx_cost_usd_pp:'] || trip.approx_cost_usd_pp || 0;
-                        const budgetField = trip['budget_level_csv:'] || trip.budget_level || trip.budget_tag || '';
-                        const durationField = parseInt(trip['duration_days:'] || trip.duration_days || 0);
+                        
+                        const costField = trip['approx_cost_usd_pp:'] || trip['approx_cost_usd_pp'] || trip['Approx Cost USD PP'] || trip['cost'] || 0;
+                        const budgetField = trip['budget_level_csv:'] || trip['budget_level'] || trip['Budget Level'] || trip['budget'] || '';
+                        const durationField = parseInt(trip['duration_days:'] || trip['duration_days'] || trip['Duration Days'] || trip['duration'] || 0);
 
                         if (costField && parseFloat(costField) > 0) {
                             const totalCost = parseFloat(costField);
@@ -822,27 +854,32 @@
                                 priceDisplay = "$100 - $200";
                             } else if (budget.includes('luxury') || budget.includes('high')) {
                                 priceDisplay = "$200+";
-                            } else {
-                                priceDisplay = budget; // Show the budget level as-is
                             }
                         }
 
                         card.dataset.tripObject = JSON.stringify(trip);
 
+                        // Get trip details with flexible field names
+                        const title = trip['title:'] || trip['title'] || trip['Title'] || trip['TITLE'] || 'Exciting Adventure';
+                        const description = trip['description_long:'] || trip['description'] || trip['Description'] || trip['summary'] || 'Explore this amazing destination!';
+                        const duration = trip['duration_days:'] || trip['duration_days'] || trip['Duration Days'] || trip['duration'] || 'N/A';
+                        const category = trip['primary_interest_category:'] || trip['primary_interest'] || trip['Category'] || trip['category'] || '';
+                        const imageUrl = trip['image_url:'] || trip['image_url'] || trip['Image URL'] || trip['image'] || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&q=80';
+
                         card.innerHTML = `
                             <div class="trip-card-image-container">
-                                <img src="${trip['image_url:'] || trip.image_url || 'https://via.placeholder.com/300x180/CCCCCC/FFFFFF?text=Explore'}" alt="${trip['title:'] || trip.title}">
+                                <img src="${imageUrl}" alt="${title}" onerror="this.src='https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&q=80'">
                             </div>
                             <div class="trip-card-content">
                                 <div class="trip-card-rating">
                                     <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star-half-alt"></i> 4.5 
                                 </div>
-                                <h4>${trip['title:'] || trip.title}</h4>
+                                <h4>${title}</h4>
                                 <div class="trip-card-details">
-                                    <span><i class="fas fa-calendar-alt"></i> ${trip['duration_days:'] || trip.duration_days || 'N/A'} Days</span>
-                                    ${trip['primary_interest_category:'] || trip.primary_interest ? `<span><i class="fas fa-map-marker-alt"></i> ${trip['primary_interest_category:'] || trip.primary_interest}</span>` : ''}
+                                    <span><i class="fas fa-calendar-alt"></i> ${duration} Days</span>
+                                    ${category ? `<span><i class="fas fa-map-marker-alt"></i> ${category}</span>` : ''}
                                 </div>
-                                <p class="trip-card-description">${((trip['description_long:'] || trip.description || 'Explore this exciting destination!').substring(0, 90))}${((trip['description_long:'] || trip.description || '').length > 90) ? "..." : ""}</p>
+                                <p class="trip-card-description">${description.substring(0, 90)}${description.length > 90 ? "..." : ""}</p>
                                 <div class="trip-card-footer">
                                     <span class="trip-card-price">From <strong>${priceDisplay}</strong> per day</span>
                                     <a href="#" class="btn-view-trip">VIEW TRIP</a>
@@ -856,20 +893,13 @@
                             const tripDataString = clickedCard.dataset.tripObject;
                             if (tripDataString) {
                                 localStorage.setItem('selectedTripForDetailView', tripDataString);
-
-                                const currentPrefs = {
-                                    destination_country: getCountryFromTrip(JSON.parse(tripDataString))
-                                };
-                                localStorage.setItem('currentUserPreferences', JSON.stringify(currentPrefs));
-
-                                window.location.href = `trip_details.html?id=${JSON.parse(tripDataString)['id:'] || JSON.parse(tripDataString).id}`;
-                            } else {
-                                console.error("No trip data found on card.");
+                                const tripData = JSON.parse(tripDataString);
+                                const tripId = tripData['id:'] || tripData['id'] || tripData['ID'] || `trip-${Date.now()}`;
+                                window.location.href = `trip_details.html?id=${tripId}`;
                             }
                         };
 
                         card.querySelector('.btn-view-trip').addEventListener('click', handleTripClick);
-
                         popularTripsContainer.appendChild(card);
                     });
                 } else {
@@ -877,9 +907,9 @@
                     noPopularMessage.style.display = 'block';
                 }
             } catch (error) {
-                console.error('Error fetching popular trips:', error);
+                console.error('Error fetching popular trips from Google Sheets:', error);
                 loadingPopularMsg.style.display = 'none';
-                noPopularMessage.textContent = 'Could not load popular trips. Please try again later.';
+                noPopularMessage.textContent = 'Could not load popular trips. Please check your internet connection.';
                 noPopularMessage.style.display = 'block';
             }
         }

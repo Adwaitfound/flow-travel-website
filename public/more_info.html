@@ -285,34 +285,42 @@
 
             <form id="moreInfoForm">
                 <div class="form-group">
-                    <label class="main-label">What kind of traveller are you?</label>
+                    <label class="main-label">Who are you traveling with?</label>
                     <div class="radio-group-container">
-                        <label class="radio-group"><input type="radio" name="travelStyle" value="solo" required> Solo</label>
-                        <label class="radio-group"><input type="radio" name="travelStyle" value="couple"> Couple</label>
-                        <label class="radio-group"><input type="radio" name="travelStyle" value="family"> Family</label>
-                        <label class="radio-group"><input type="radio" name="travelStyle" value="group"> Friends/Group</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="travelStyle" value="solo" required> Solo Travel</label>
+                            <label><input type="radio" name="travelStyle" value="couple"> Couple</label>
+                            <label><input type="radio" name="travelStyle" value="family"> Family</label>
+                            <label><input type="radio" name="travelStyle" value="group"> Group/Friends</label>
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group" id="groupSizeSection" style="display:none; margin-left: 20px;">
-                    <label for="groupSize">Number of people (including yourself):</label>
-                    <input type="number" id="groupSize" name="groupSize" min="1" placeholder="e.g., 4">
+                    <label>How many people in your group?</label>
+                    <input type="number" id="groupSize" name="groupSize" min="2" max="20" value="4">
                 </div>
 
                 <div class="form-group">
-                    <label class="main-label">What's your budget style?</label>
+                    <label class="main-label">What's your budget preference?</label>
                     <div class="radio-group-container">
-                        <label class="radio-group"><input type="radio" name="budget" value="budget" required> Affordable</label>
-                        <label class="radio-group"><input type="radio" name="budget" value="medium" required> Pricey</label>
-                        <label class="radio-group"><input type="radio" name="budget" value="luxury" required> Luxury</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="budget" value="budget" required> Budget-Friendly</label>
+                            <label><input type="radio" name="budget" value="medium"> Mid-Range</label>
+                            <label><input type="radio" name="budget" value="luxury"> Luxury</label>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label class="main-label">What type of experience are you primarily looking for? <small>(Select up to 3 for best results)</small></label>
-                    <div class="checkbox-grid-container" id="interestsCheckboxesMoreInfo">
+                    <label class="main-label">What interests you most? (Select all that apply)</label>
+                    <div class="checkbox-grid-container">
+                        <label class="checkbox-group"><input type="checkbox" name="more_interests" value="nature"> <i class="fas fa-tree" style="margin-right: 5px;"></i> Nature</label>
+                        <label class="checkbox-group"><input type="checkbox" name="more_interests" value="culture"> <i class="fas fa-landmark" style="margin-right: 5px;"></i> Culture</label>
+                        <label class="checkbox-group"><input type="checkbox" name="more_interests" value="food"> <i class="fas fa-utensils" style="margin-right: 5px;"></i> Food</label>
                         <label class="checkbox-group"><input type="checkbox" name="more_interests" value="beaches"> <i class="fas fa-umbrella-beach" style="margin-right: 5px;"></i> Beaches</label>
                         <label class="checkbox-group"><input type="checkbox" name="more_interests" value="mountains"> <i class="fas fa-mountain" style="margin-right: 5px;"></i> Mountains</label>
+                        <label class="checkbox-group"><input type="checkbox" name="more_interests" value="wellness"> <i class="fas fa-spa" style="margin-right: 5px;"></i> Wellness</label>
                         <label class="checkbox-group"><input type="checkbox" name="more_interests" value="adventure"> <i class="fas fa-hiking" style="margin-right: 5px;"></i> Adventure</label>
                     </div>
                 </div>
@@ -392,53 +400,25 @@
                 if(errorMessageDiv) errorMessageDiv.style.display = 'none';
                 if(loadingIndicator) loadingIndicator.style.display = 'block';
 
-                const travelStyleChecked = document.querySelector('input[name="travelStyle"]:checked');
-                const budgetChecked = document.querySelector('input[name="budget"]:checked');
-                const groupSizeInput = document.getElementById('groupSize');
+                // Collect form data
+                const formData = new FormData(this);
+                const finalPreferences = Object.assign({}, initialSelections);
                 
-                let formIsValid = true;
-
-                if (!travelStyleChecked) { 
-                    alert("Please select your travel style."); 
-                    formIsValid = false; 
+                // Add form values to preferences
+                for (let [key, value] of formData.entries()) {
+                    if (key === 'more_interests') {
+                        if (!finalPreferences.interests) finalPreferences.interests = [];
+                        finalPreferences.interests.push(value);
+                    } else {
+                        finalPreferences[key] = value;
+                    }
                 }
 
-                if (!budgetChecked) { 
-                    alert("Please select your budget style."); 
-                    formIsValid = false; 
-                }
-                
-                // Make interests optional - don't require any selection
-                const selectedMoreInterests = [];
-                document.querySelectorAll('#interestsCheckboxesMoreInfo input[name="more_interests"]:checked').forEach(checkbox => {
-                    selectedMoreInterests.push(checkbox.value);
-                });
-
-                // Allow 0-3 interests instead of requiring at least 1
-                if (selectedMoreInterests.length > 3) {
-                    alert("Please select no more than 3 interests for best results."); 
-                    formIsValid = false;
+                // Handle group size based on travel style
+                if (finalPreferences.travelStyle !== 'family' && finalPreferences.travelStyle !== 'group') {
+                    delete finalPreferences.groupSize;
                 }
 
-                if (!formIsValid) {
-                    if(loadingIndicator) loadingIndicator.style.display = 'none';
-                    return;
-                }
-                
-                const finalPreferences = {
-                    destination_country: initialSelections.destination_country,
-                    startDate: initialSelections.startDate,
-                    endDate: initialSelections.endDate,
-                    starting_city: initialSelections.starting_city,
-                    travelStyle: travelStyleChecked.value,
-                    budget: budgetChecked.value,
-                    interests: selectedMoreInterests
-                };
-
-                if (travelStyleChecked.value === 'family' || travelStyleChecked.value === 'group') {
-                    finalPreferences.groupSize = parseInt(groupSizeInput.value);
-                }
-                
                 console.log("Final Preferences being sent from more_info.html:", JSON.stringify(finalPreferences));
 
                 const backendUrl = '/generate-itinerary';
