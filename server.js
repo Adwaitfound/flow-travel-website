@@ -239,9 +239,35 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-// Serve static files
-app.get('*', (req, res) => {
+// Serve static files more explicitly
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/index.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/more_info.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'more_info.html'));
+});
+
+app.get('/itinerary_options.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'itinerary_options.html'));
+});
+
+app.get('/all_itineraries.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'all_itineraries.html'));
+});
+
+// Serve other static files
+app.get('*', (req, res) => {
+    const filePath = path.join(__dirname, 'public', req.path);
+    if (require('fs').existsSync(filePath)) {
+        res.sendFile(filePath);
+    } else {
+        res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    }
 });
 
 // For Vercel
